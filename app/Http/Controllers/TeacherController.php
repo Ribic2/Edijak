@@ -18,7 +18,7 @@ class TeacherController extends Controller
      */
     public function formatSurname(array $surname): string{
         array_pop($surname);
-        $formattedSurname = "";
+        (string)$formattedSurname = "";
 
         foreach ($surname as $i){
             if($formattedSurname == null){
@@ -42,16 +42,16 @@ class TeacherController extends Controller
             $explodeNameAndSurname = explode(" ", $explode[0]);
 
             // Formatting data
-            $name = end($explodeNameAndSurname);
-            $surname =  mb_convert_encoding($this->formatSurname($explodeNameAndSurname), 'utf-8');
-            $email = str_replace('(at)', '@', $explode[2]);
-            $subject = $explode[1];
-            $firstLetterSurname = mb_convert_encoding(end($explodeNameAndSurname)[0], 'utf-8');
+            (string)$name = end($explodeNameAndSurname);
+            (string)$surname =  $this->formatSurname($explodeNameAndSurname);
+            (string)$email = str_replace('(at)', '@', $explode[2]);
+            (string)$subject = $explode[1];
+            (string)$firstLetterSurname = mb_substr(end($explodeNameAndSurname), 0, 1);
 
             $teacher = Teacher::create([
                 "name"=>$name,
                 "surname" => $surname,
-                "nameAndSurname" => $firstLetterSurname.". ".utf8_encode($surname),
+                "nameAndSurname" => $firstLetterSurname.". ".$surname,
                 "email" => $email,
                 "password" => Hash::make("test"),
                 "subject" => $subject
