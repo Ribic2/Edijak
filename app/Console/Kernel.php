@@ -2,7 +2,9 @@
 
 namespace App\Console;
 
+use App\Models\Group;
 use Illuminate\Console\Scheduling\Schedule;
+use App\Http\Controllers\ScraperController;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
@@ -24,7 +26,16 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->call(function(){
+
+            $groups = Group::all();
+
+            foreach ($groups as $group){
+                $scraper = new ScraperController();
+                $scraper->scrapData($group);
+            }
+
+        })->everyMinute();
     }
 
     /**
