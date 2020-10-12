@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Goutte\Client;
-use App\Models\Teacher;
 
 class ScraperController extends Controller
 {
@@ -23,7 +22,7 @@ class ScraperController extends Controller
      * Used for storing school timetable
      * @var array
      */
-    public array $schedule = [];
+    public array $schedule = array();
 
     /**
      * ScraperController constructor.
@@ -42,19 +41,11 @@ class ScraperController extends Controller
      */
     public function appendToDB()
     {
-        // Loops through schedule
-        foreach ($this->schedule as $hour){
-
+        foreach ($this->schedule as $hour) {
+            error_log(print_r($hour));
         }
     }
 
-    /**
-     * Checks if teacher is already stored in database
-     * @param string $teacherName
-     */
-    public function checkForTeachers(string $teacherName){
-
-    }
     /**
      * Checks if event lasts whole day and formats it correctly
      * @return bool
@@ -68,7 +59,7 @@ class ScraperController extends Controller
          * Counter counts hours
          */
         (int)$counter = 1;
-        (array)$tempArray = [];
+        (array)$tempArray = array();
 
         /**
          * Checks for events
@@ -93,73 +84,118 @@ class ScraperController extends Controller
     }
 
     /**
-     * Formats data
+     * Organises data for block hour and stores it to public array
+     * @param string $data
+     * @param string $hour
+     */
+    public function organiseBlockHourData(string $data, string $hour){
+        $separate_data = explode(" ", $data);
+
+        if (count($separate_data) >= 5) {
+            array_pop($separate_data);
+        }
+
+        (string)$nameAndSurname = "";
+        (string)$classRoom = $separate_data[3];
+        (string)$subject = $separate_data[0];
+
+        /**
+         * Creates name and surname
+         */
+        for ($i = 1; $i < count($separate_data) - 1; $i++) {
+            if ($nameAndSurname == "") {
+                $nameAndSurname .= $separate_data[$i];
+            } else {
+                $nameAndSurname .= " " . $separate_data[$i];
+            }
+        }
+
+        /**
+         * Formatted data
+         */
+        $data = [
+            "teacher" => $nameAndSurname,
+            "classRoom" => $classRoom,
+            "subject" => $subject,
+            "hour" => $hour
+        ];
+        array_push($this->schedule, $data);
+    }
+
+    /**
+     * Formats received data and stores them into public array
      * @param array $data
      */
     public function formatData(array $data)
     {
-        (array)$tempArray = [];
         foreach ($data as $j) {
             (string)$tempString = "";
-            $explode = explode(" ", $j["text"]);
-            foreach ($explode as $i) {
-                /** Checks if string is null or not
-                 * If it is it adds new element with no space in beginning
-                 * Else it add new element WITH space
-                 */
-                if (strlen($tempString) == 0) {
-                    $tempString .= $i;
-                } else if (preg_match('/([[:upper:]]|(-v|-p)){3,}/u', $i)) {
+            $explode = explode(", ", $j["text"]);
+            // Only if explode is longer than 2 (if it's exactly 2 then it counts as normal hours)
+            if (count($explode) > 2) {
+                $sec_explode = explode(" ", $j["text"]);
+                foreach ($sec_explode as $i) {
                     /**
-                     * Checks only if there are multiple classes in one hour
+                     * At the start of the loops, string will be added to tempString with no spaces at the beginning
                      */
-                    $other = explode(" ", $tempString);
-                    $this->checkForTeachers($other[1]." ".$other[2]);
-
-                    $dataArray = [
-                        "Subject" => $other[0],
-                        "Teacher" => $other[1] . " " . $other[2],
-                        "Class" => $other[3],
-                        "Hour" => $j["ura"]
-
-                    ];
-                    array_push($tempArray, $dataArray);
-                    $tempString = "";
-                    $tempString .= $i;
-                } else {
-                    // Removes single number from array
-                    if (strlen($i) != 1) {
+                    if (strlen($tempString) == 0) {
+                        $tempString .= $i;
+                    } else if ($i == end($sec_explode)) {
                         $tempString .= " " . $i;
+
+                        $this->organiseBlockHourData($tempString, $j["hour"]);
+                        break;
+                    } /**
+                     * If expression matches the regex, it stores it into temp array and resets the string
+                     * Regex checks for subject names in short version (ROM, NSA, SLO...)
+                     */
+                    else if (preg_match('/([[:upper:]]|(-v|-p)){3,}/u', $i)) {
+                        /**
+                         * Data will be furthermore formatted into subject, hour, teacher and class room
+                         * then It will be added to temp array
+                         */
+                        $this->organiseBlockHourData($tempString, $j["hour"]);
+
+                        $tempString = "";
+                        $tempString .= $i;
+                    } else {
+                        /**
+                         * It adds new string to string, unless single number is found.
+                         * Single number is found, where there is more than 1 subject per hour
+                         * Usually class it self is split into groups
+                         */
+                        if (strlen($i) != 1) {
+                            $tempString .= " " . $i;
+                        }
                     }
                 }
-            }
-
-            /**
-             * Checks if there is only one subject per given hour
-             */
-            if ($tempString != null) {
-                $other = explode(" ", $tempString);
-                $this->checkForTeachers($other[1]." ".$other[2]);
-                $dataArray = [
-                    "Subject" => $other[0],
-                    "Teacher" => $other[1] . " " . $other[2],
-                    "Class" => $other[3],
-                    "Hour" => $j["ura"]
-                ];
-                array_push($tempArray, $dataArray);
             } else {
-                /**
-                 * Appends empty with hour data, if there is no subject at given hour
-                 */
-                $dataArray = [
-                    "ura" => $j["ura"]
-                ];
-                array_push($tempArray, $dataArray);
-            }
-        }
+                // Second explode separates subject and name/surnames
+                (array)$sec_explode = explode(" ", $explode[0]);
+                (string)$subject = $sec_explode[0];
+                (string)$nameAndSurname = "";
+                (string)$classRoom = $explode[1];
 
-        // Appends array to public global array
-        $this->schedule = $tempArray;
+
+                // Combines name and surname
+                for ($i = 1; $i < count($sec_explode); $i++) {
+                    if ($nameAndSurname == null) {
+                        $nameAndSurname .= $sec_explode[$i];
+                    } else {
+                        $nameAndSurname .= " " . $sec_explode[$i];
+                    }
+                }
+
+                (array)$data = [
+                    "teacher" => $nameAndSurname,
+                    "classRoom" => $classRoom,
+                    "subject" => $subject,
+                    "hour" => $j["hour"]
+                ];
+                array_push($this->schedule, $data);
+            }
+            error_log(print_r($j));
+        }
     }
 
     /**
@@ -180,7 +216,7 @@ class ScraperController extends Controller
         if (!$this->checkForEvent()) {
             // Gets school timetable for today
             $crawler->filter('.ednevnik-seznam_ur_teden-td.ednevnik-seznam_ur_teden-td-danes')->each(function ($node) use (&$tempArray, &$counter) {
-                array_push($tempArray, ["ura" => $counter, "text" => $node->text()]);
+                array_push($tempArray, ["hour" => $counter, "text" => $node->text()]);
                 $counter++;
             });
             $this->formatData($tempArray);

@@ -14,6 +14,17 @@ class GroupSeeder extends Seeder
      */
     public function run()
     {
-        DB::insert('');
+        DB::table('groups')->insert([
+            [
+                "id" => 1,
+                "groupName" => "R4B",
+                "groupUrl" => "https://www.easistent.com/urniki/5738623c4f3588f82583378c44ceb026102d6bae/razredi/407674"
+            ],
+            [
+                "id" => 2,
+                "groupName" => "R4A",
+                "groupUrl" => "https://www.easistent.com/urniki/5738623c4f3588f82583378c44ceb026102d6bae/razredi/407671"
+            ]
+        ]);
     }
 }

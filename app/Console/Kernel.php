@@ -31,8 +31,8 @@ class Kernel extends ConsoleKernel
             $groups = Group::all();
 
             foreach ($groups as $group){
-                $scraper = new ScraperController();
-                $scraper->scrapData($group);
+                $scraper = new ScraperController($group->groupName, $group->groupUrl);
+                $scraper->scrapData();
             }
 
         })->everyMinute();

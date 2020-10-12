@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Teacher;
 use Goutte\Client;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 
 class TeacherController extends Controller
 {
-
-    public array $teachers = [];
-
     /**
      * Formats surname data
      * @param array $surname
@@ -57,7 +55,9 @@ class TeacherController extends Controller
                 "subject" => $subject
             ]);
 
-            $teacher->save();
+            if(!$teacher->save()){
+                abort(403, "There was an error storing the data!");
+            }
         }
     }
 
@@ -103,6 +103,9 @@ class TeacherController extends Controller
             array_shift($tempArray);
             $this->formatDataAndStoreIt($tempArray);
 
+        }
+        else{
+            abort(403, "Data already scrapped and inserted!");
         }
     }
 }
