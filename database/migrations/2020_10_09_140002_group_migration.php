@@ -16,7 +16,7 @@ class GroupMigration extends Migration
         Schema::create('groups', function(Blueprint $table){
             $table->id();
             $table->string('groupName');
-            $table->string('groupURL');
+            $table->string('groupUrl');
         });
     }
 

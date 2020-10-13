@@ -10,7 +10,7 @@ class ScraperController extends Controller
      * Stores Easistent url of selected class
      * @var string
      */
-    public string $easistentClassUrl = "https://www.easistent.com/urniki/5738623c4f3588f82583378c44ceb026102d6bae/razredi/407674";
+    public string $easistentClassUrl;
 
     /**
      * Name of currently selected class
@@ -22,7 +22,7 @@ class ScraperController extends Controller
      * Used for storing school timetable
      * @var array
      */
-    public array $schedule = array();
+    public array $schedule = [];
 
     /**
      * ScraperController constructor.
@@ -36,13 +36,12 @@ class ScraperController extends Controller
     }
 
     /**
-     * TODO
      * Adds new data to database
      */
     public function appendToDB()
     {
         foreach ($this->schedule as $hour) {
-            error_log(print_r($hour));
+            var_dump($hour);
         }
     }
 
@@ -88,7 +87,8 @@ class ScraperController extends Controller
      * @param string $data
      * @param string $hour
      */
-    public function organiseBlockHourData(string $data, string $hour){
+    public function organiseBlockHourData(string $data, string $hour)
+    {
         $separate_data = explode(" ", $data);
 
         if (count($separate_data) >= 5) {
@@ -113,12 +113,13 @@ class ScraperController extends Controller
         /**
          * Formatted data
          */
-        $data = [
-            "teacher" => $nameAndSurname,
+        $data = array(
+            "teacher" => rtrim($nameAndSurname, ","),
             "classRoom" => $classRoom,
             "subject" => $subject,
             "hour" => $hour
-        ];
+        );
+
         array_push($this->schedule, $data);
     }
 
@@ -131,6 +132,7 @@ class ScraperController extends Controller
         foreach ($data as $j) {
             (string)$tempString = "";
             $explode = explode(", ", $j["text"]);
+
             // Only if explode is longer than 2 (if it's exactly 2 then it counts as normal hours)
             if (count($explode) > 2) {
                 $sec_explode = explode(" ", $j["text"]);
@@ -142,7 +144,6 @@ class ScraperController extends Controller
                         $tempString .= $i;
                     } else if ($i == end($sec_explode)) {
                         $tempString .= " " . $i;
-
                         $this->organiseBlockHourData($tempString, $j["hour"]);
                         break;
                     } /**
@@ -155,7 +156,6 @@ class ScraperController extends Controller
                          * then It will be added to temp array
                          */
                         $this->organiseBlockHourData($tempString, $j["hour"]);
-
                         $tempString = "";
                         $tempString .= $i;
                     } else {
@@ -169,7 +169,7 @@ class ScraperController extends Controller
                         }
                     }
                 }
-            } else {
+            } else if(count($explode) == 2) {
                 // Second explode separates subject and name/surnames
                 (array)$sec_explode = explode(" ", $explode[0]);
                 (string)$subject = $sec_explode[0];
@@ -186,16 +186,27 @@ class ScraperController extends Controller
                     }
                 }
 
-                (array)$data = [
+                $data = array(
                     "teacher" => $nameAndSurname,
                     "classRoom" => $classRoom,
                     "subject" => $subject,
                     "hour" => $j["hour"]
-                ];
+                );
                 array_push($this->schedule, $data);
             }
-            error_log(print_r($j));
+            else{
+                $data = array(
+                    "teacher" => "",
+                    "classRoom" => "",
+                    "subject" => "",
+                    "hour" => $j["hour"]
+                );
+
+                array_push($this->schedule, $data);
+            }
+
         }
+        $this->appendToDB();
     }
 
     /**
@@ -213,13 +224,13 @@ class ScraperController extends Controller
         (array)$tempArray = [];
 
         // If there is no event data wil be formatted normally
-        if (!$this->checkForEvent()) {
-            // Gets school timetable for today
-            $crawler->filter('.ednevnik-seznam_ur_teden-td.ednevnik-seznam_ur_teden-td-danes')->each(function ($node) use (&$tempArray, &$counter) {
-                array_push($tempArray, ["hour" => $counter, "text" => $node->text()]);
-                $counter++;
-            });
-            $this->formatData($tempArray);
-        }
+
+        // Gets school timetable for today
+        $crawler->filter('.ednevnik-seznam_ur_teden-td.ednevnik-seznam_ur_teden-td-danes')->each(function ($node) use (&$tempArray, &$counter) {
+            array_push($tempArray, ["hour" => $counter, "text" => $node->text()]);
+            $counter++;
+        });
+        $this->formatData($tempArray);
     }
+
 }
