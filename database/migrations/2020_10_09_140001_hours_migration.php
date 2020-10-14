@@ -15,8 +15,8 @@ class HoursMigration extends Migration
     {
         Schema::create('hours', function(Blueprint  $table){
             $table->id();
-            $table->float('from', 4, 2);
-            $table->float('to', 4,2);
+            $table->string('from');
+            $table->string('to');
         });
     }
 

@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Group;
+use App\Models\Schedule;
+use App\Models\Teacher;
+use App\Models\Hour;
 use Goutte\Client;
 
 class ScraperController extends Controller
@@ -41,45 +45,33 @@ class ScraperController extends Controller
     public function appendToDB()
     {
         foreach ($this->schedule as $hour) {
-            var_dump($hour);
+            // Checks if subject is perhaps a break
+            if ($hour["subject"] != "MALICA" && $hour["subject"] != null) {
+                // Mass assign
+                $insertSchedule = Schedule::create([
+                    "subject" => $hour["subject"],
+                    "class" => $this->className,
+                    "hour" => $hour["hour"],
+                    "teacherId" => Teacher::where('nameAndSurname', $hour["teacher"])->first()->id,
+                    "groupId" => Group::where('groupName', $this->className)->first()->id,
+                    "hourId" => Hour::where('id', $hour["hour"])->first()->id,
+                ]);
+                $insertSchedule->save();
+            }
+            else{
+                // Inserts if selected hour is break time or there is no subject in hour
+                $insertSchedule = Schedule::create([
+                    // There might still be hour with MALICA but no other data
+                    "subject" => $hour["subject"] ? "MALICA" : null,
+                    "class" => $this->className,
+                    "hour" => $hour["hour"],
+                    "teacherId" => null,
+                    "groupId" => null,
+                    "hourId" => null,
+                ]);
+                $insertSchedule->save();
+            }
         }
-    }
-
-    /**
-     * Checks if event lasts whole day and formats it correctly
-     * @return bool
-     */
-    public function checkForEvent(): bool
-    {
-        $client = new Client();
-        $crawler = $client->request('GET', $this->easistentClassUrl);
-
-        /**
-         * Counter counts hours
-         */
-        (int)$counter = 1;
-        (array)$tempArray = array();
-
-        /**
-         * Checks for events
-         */
-        $crawler->filter('.ednevnik-seznam_ur_teden-td-dogodek')->each(function ($node) use (&$tempArray, &$counter) {
-            $explode = explode(" ", $node->text());
-            $dataArray = [
-                "Subject" => $explode[2] . " " . $explode[3],
-                "Teacher" => "",
-                "Class" => "",
-                "Hour" => $counter
-            ];
-            array_push($tempArray, $dataArray);
-            $counter++;
-        });
-
-        if (count($tempArray) != 0) {
-            $this->schedule = $tempArray;
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -89,8 +81,8 @@ class ScraperController extends Controller
      */
     public function organiseBlockHourData(string $data, string $hour)
     {
-        $separate_data = explode(" ", $data);
-
+        (array)$separate_data = explode(" ", $data);
+        // Removes last item
         if (count($separate_data) >= 5) {
             array_pop($separate_data);
         }
@@ -113,7 +105,7 @@ class ScraperController extends Controller
         /**
          * Formatted data
          */
-        $data = array(
+        (array)$data = array(
             "teacher" => rtrim($nameAndSurname, ","),
             "classRoom" => $classRoom,
             "subject" => $subject,
@@ -169,7 +161,7 @@ class ScraperController extends Controller
                         }
                     }
                 }
-            } else if(count($explode) == 2) {
+            } else if (count($explode) == 2) {
                 // Second explode separates subject and name/surnames
                 (array)$sec_explode = explode(" ", $explode[0]);
                 (string)$subject = $sec_explode[0];
@@ -193,8 +185,7 @@ class ScraperController extends Controller
                     "hour" => $j["hour"]
                 );
                 array_push($this->schedule, $data);
-            }
-            else{
+            } else {
                 $data = array(
                     "teacher" => "",
                     "classRoom" => "",

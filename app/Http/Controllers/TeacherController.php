@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Teacher;
 use Goutte\Client;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 
 class TeacherController extends Controller
