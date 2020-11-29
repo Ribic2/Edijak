@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Goutte\Client;
-use App\Models\Teacher;
 
 class ScraperController extends Controller
 {
