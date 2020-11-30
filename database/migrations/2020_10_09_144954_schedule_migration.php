@@ -15,12 +15,12 @@ class ScheduleMigration extends Migration
     {
        Schema::create('schedules', function (Blueprint $table){
             $table->id();
-            $table->string('subject');
-            $table->string('class')->nullable();
+            $table->string('subject')->nullable();
+            $table->string('class');
             $table->integer('hour');
-            $table->foreignId('teacherId')->references('id')->on('teachers');
-            $table->foreignId('groupId')->references('id')->on('groups');
-            $table->foreignId('hourId')->references('id')->on('hours');
+            $table->foreignId('teacherId')->nullable()->references('id')->on('teachers');
+            $table->foreignId('groupId')->nullable()->references('id')->on('groups');
+            $table->foreignId('hourId')->nullable()->references('id')->on('hours');
             $table->timestamps();
        }) ;
     }

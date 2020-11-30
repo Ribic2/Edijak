@@ -3,6 +3,8 @@
 namespace App\Console;
 
 use App\Models\Group;
+use Carbon\Carbon;
+use App\Models\Schedule as ScheduleModel;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Http\Controllers\ScraperController;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -28,13 +30,13 @@ class Kernel extends ConsoleKernel
     {
         $schedule->call(function(){
 
-            $groups = Group::all();
-
-            foreach ($groups as $group){
-                $scraper = new ScraperController();
-                $scraper->scrapData($group);
+            if(ScheduleModel::whereDate('created_at', Carbon::today())->count() == 0){
+                $groups = Group::all();
+                foreach ($groups as $group){
+                    $scraper = new ScraperController($group->groupName, $group->groupUrl);
+                    $scraper->scrapData();
+                }
             }
-
         })->everyMinute();
     }
 
