@@ -17,7 +17,6 @@ class TeacherMigration extends Migration
             $table->id();
             $table->string('name');
             $table->string('surname');
-            $table->string('nameAndSurname');
             $table->string('email');
             $table->string('password');
             $table->string('subject');

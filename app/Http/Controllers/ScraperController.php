@@ -6,6 +6,7 @@ use App\Models\Group;
 use App\Models\Schedule;
 use App\Models\Teacher;
 use App\Models\Hour;
+use App\Models\User;
 use Goutte\Client;
 
 class ScraperController extends Controller
@@ -45,22 +46,22 @@ class ScraperController extends Controller
     public function appendToDB()
     {
         foreach ($this->schedule as $hour) {
+            error_log(print_r($hour));
             // Checks if subject is perhaps a break
             if ($hour["subject"] != "MALICA" && $hour["subject"] != null) {
                 // Mass assign
-                $insertSchedule = Schedule::create([
+                Schedule::create([
                     "subject" => $hour["subject"],
                     "class" => $this->className,
                     "hour" => $hour["hour"],
-                    "teacherId" => Teacher::where('nameAndSurname', $hour["teacher"])->first()->id,
+                    "userId" => User::where('nameAndSurname', $hour["teacher"])->first()->id,
                     "groupId" => Group::where('groupName', $this->className)->first()->id,
                     "hourId" => Hour::where('id', $hour["hour"])->first()->id,
-                ]);
-                $insertSchedule->save();
+                ])->save();
             }
             else{
                 // Inserts if selected hour is break time or there is no subject in hour
-                $insertSchedule = Schedule::create([
+               Schedule::create([
                     // There might still be hour with MALICA but no other data
                     "subject" => $hour["subject"] ? "MALICA" : null,
                     "class" => $this->className,
@@ -68,8 +69,7 @@ class ScraperController extends Controller
                     "teacherId" => null,
                     "groupId" => null,
                     "hourId" => null,
-                ]);
-                $insertSchedule->save();
+                ])->save();
             }
         }
     }
@@ -221,6 +221,7 @@ class ScraperController extends Controller
             array_push($tempArray, ["hour" => $counter, "text" => $node->text()]);
             $counter++;
         });
+
         $this->formatData($tempArray);
     }
 
