@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Teacher;
+use App\Models\User;
 use Goutte\Client;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class TeacherController extends Controller
 {
@@ -13,16 +14,16 @@ class TeacherController extends Controller
      * @param array $surname
      * @return string
      */
-    public function formatSurname(array $surname): string{
+    public function formatSurname(array $surname): string
+    {
         array_pop($surname);
         (string)$formattedSurname = "";
 
-        foreach ($surname as $i){
-            if($formattedSurname == null){
+        foreach ($surname as $i) {
+            if ($formattedSurname == null) {
                 $formattedSurname .= $i;
-            }
-            else{
-                $formattedSurname .= " ".$i;
+            } else {
+                $formattedSurname .= " " . $i;
             }
         }
         return $formattedSurname;
@@ -34,39 +35,41 @@ class TeacherController extends Controller
      */
     public function formatDataAndStoreIt(array $data)
     {
-        foreach ($data as $teacher){
+        foreach ($data as $teacher) {
             $explode = explode('=', $teacher);
             $explodeNameAndSurname = explode(" ", $explode[0]);
 
             // Formatting data
             (string)$name = end($explodeNameAndSurname);
-            (string)$surname =  $this->formatSurname($explodeNameAndSurname);
+            (string)$surname = $this->formatSurname($explodeNameAndSurname);
             (string)$email = str_replace('(at)', '@', $explode[2]);
             (string)$subject = $explode[1];
             (string)$firstLetterSurname = mb_substr(end($explodeNameAndSurname), 0, 1);
 
-            $teacher = Teacher::create([
-                "name"=>$name,
+            $teacher = User::create([
+                "name" => $name,
                 "surname" => $surname,
-                "nameAndSurname" => $firstLetterSurname.". ".$surname,
+                "nameAndSurname" => $firstLetterSurname . ". " . $surname,
                 "email" => $email,
                 "password" => Hash::make("test"),
-                "subject" => $subject
+                "subject" => $subject,
+                "groupId" => null
             ]);
 
-            if(!$teacher->save()){
+            $teacher->assignRole('teacher');
+
+            if (!$teacher->save()) {
                 abort(403, "There was an error storing the data!");
             }
         }
     }
-
     /**
      * Scraps data from SESTG teacher council and stores it to temporary array
      */
     public function scrapData()
     {
         // Checks if data was already inserted
-        if (Teacher::all()->count() == 0) {
+        if (User::all()->count() == 0) {
             $client = new Client();
             (string)$tempString = "";
             (array)$tempArray = [];
@@ -78,17 +81,15 @@ class TeacherController extends Controller
             // Loops through data and formats it together into a string and pushes it do temporary array;
             $len = count($data);
             $i = 0;
-            foreach ($data as $node){
+            foreach ($data as $node) {
                 if (!is_numeric($node->nodeValue)) {
                     if ($tempString == null) {
                         $tempString .= $node->nodeValue;
-                    }
-                    // Determines if iteration is last
-                    else if($i == $len - 1){
+                    } // Determines if iteration is last
+                    else if ($i == $len - 1) {
                         $tempString .= "=" . $node->nodeValue;
                         array_push($tempArray, $tempString);
-                    }
-                    else {
+                    } else {
                         $tempString .= "=" . $node->nodeValue;
                     }
                 } else {
@@ -102,8 +103,7 @@ class TeacherController extends Controller
             array_shift($tempArray);
             $this->formatDataAndStoreIt($tempArray);
 
-        }
-        else{
+        } else {
             abort(403, "Data already scrapped and inserted!");
         }
     }

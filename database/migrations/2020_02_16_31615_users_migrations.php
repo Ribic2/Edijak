@@ -17,7 +17,10 @@ class UsersMigrations extends Migration
             $table->id();
             $table->string('name');
             $table->string('surname');
-            $table->foreignId('groupId')->references('id')->on('groups');
+            $table->string('email');
+            $table->string('password');
+            $table->string('nameAndSurname');
+            $table->foreignId('groupId')->nullable()->references('id')->on('groups');
             $table->timestamps();
         });
     }
