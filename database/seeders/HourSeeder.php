@@ -60,6 +60,11 @@ class HourSeeder extends Seeder
                 "from" => "13:50",
                 "to" => "14:35"
             ],
+            [
+                "id" => 10,
+                "from" => "Po pouku",
+                "to" => "PO pouku"
+            ],
         ]);
     }
 }

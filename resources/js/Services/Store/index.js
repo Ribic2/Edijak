@@ -1,13 +1,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import Schedule from './Modules/Schedule'
+// Modules
+import User from './Modules/User'
+import Schedule from "./Modules/Schedule";
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     modules:{
-        schedule: Schedule
+        User,
+        Schedule
     }
 })
 

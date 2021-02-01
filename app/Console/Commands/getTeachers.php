@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\Scraper\TeacherController;
 
 class getTeachers extends Command
 {

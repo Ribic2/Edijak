@@ -1,8 +1,8 @@
 export default {
-    state: ()=> ({
+    state:{
         schedule: [],
         selectedSchedule: null
-    }),
+    },
     mutations:{
 
     },

@@ -11,7 +11,7 @@ class Schedule extends Model
      *
      * @var array
      */
-    protected $fillable = ["subject", "class", "hour", "userId", "groupId", "hourId"];
+    protected $fillable = ["subject", "class", "hour", "userId", "groupId", "hourId", "type"];
     protected $hidden = ['userId', 'groupId', 'hourId'];
 
     public function teacher(): \Illuminate\Database\Eloquent\Relations\HasOne

@@ -18,6 +18,7 @@ class ScheduleMigration extends Migration
             $table->string('subject')->nullable();
             $table->string('class');
             $table->integer('hour');
+            $table->string('type');
             $table->foreignId('userId')->nullable()->references('id')->on('users');
             $table->foreignId('groupId')->nullable()->references('id')->on('groups');
             $table->foreignId('hourId')->nullable()->references('id')->on('hours');
