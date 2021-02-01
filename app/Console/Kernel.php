@@ -33,6 +33,7 @@ class Kernel extends ConsoleKernel
             if (ScheduleModel::whereDate('created_at', Carbon::today())->count() == 0) {
                 $groups = Group::all();
                 foreach ($groups as $group) {
+                    error_log($group->groupName);
                     $scraper = new ScraperController($group->groupName, $group->groupUrl);
                     $scraper->scrapData();
                 }
