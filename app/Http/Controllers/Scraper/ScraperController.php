@@ -214,83 +214,89 @@ class ScraperController extends Controller
      */
     public function scrapData()
     {
-        $client = new Client();
-        $crawler = $client->request('GET', $this->easistentClassUrl);
+        try {
 
-        // Counter counts hours
-        (int)$counter=1;
-        (array)$tempArray = [];
-        (array)$types_of_classes = ['nadomescanje', 'zaposlitev', 'dogodek', 'odpadlo'];
+            $client = new Client();
+            $crawler = $client->request('GET', $this->easistentClassUrl);
 
-        // If there is no event data wil be formatted normally
+            // Counter counts hours
+            (int)$counter = 1;
+            (array)$tempArray = [];
+            (array)$types_of_classes = ['nadomescanje', 'zaposlitev', 'dogodek', 'odpadlo'];
 
-        error_log("Here");
-        // Gets school timetable for today
-        $crawler->filter('.ednevnik-seznam_ur_teden-td.ednevnik-seznam_ur_teden-td-danes')->each(function ($node)
-        use ($types_of_classes, &$tempArray, &$counter) {
-            error_log("Here2");
-            $div = $node->children();
-            if ($div->count() == 1) {
-                $currentType = "normal";
-                // Loops through array of types, and checks if particular hour is special,
-                // if not then it sets hour to be normal
-                // else it sets it to be special with specific type
-                foreach ($types_of_classes as $type) {
-                    $check = $node->filter('.ednevnik-seznam_ur_teden-td-' . $type);
-                    if ($check->count() > 0) {
-                        $currentType = $type;
+            // If there is no event data wil be formatted normally
+
+            error_log("Here");
+            // Gets school timetable for today
+            $crawler->filter('.ednevnik-seznam_ur_teden-td.ednevnik-seznam_ur_teden-td-danes')->each(function ($node)
+            use ($types_of_classes, &$tempArray, &$counter) {
+                error_log("Here2");
+                $div = $node->children();
+                if ($div->count() == 1) {
+                    $currentType = "normal";
+                    // Loops through array of types, and checks if particular hour is special,
+                    // if not then it sets hour to be normal
+                    // else it sets it to be special with specific type
+                    foreach ($types_of_classes as $type) {
+                        $check = $node->filter('.ednevnik-seznam_ur_teden-td-' . $type);
+                        if ($check->count() > 0) {
+                            $currentType = $type;
+                        }
                     }
-                }
-                array_push($tempArray, ["hour" => $counter, "text" => $node->text(), "type" => $currentType]);
-            } // If there is more than 1 hour in block
-            else if ($div->count() > 1) {
-                // loops through all children
-                foreach ($node->children() as $row) {
-                    // If child has attribute class with name 'ni_prvi' then this node will loop through children nodes
-                    // that are nested in selected node
-                    if ($row->attributes[1]->name == "class" && $row->attributes[1]->value == "ni_prvi") {
-                        // Loops through children of the child
-                        foreach ($row->childNodes as $childChildNode) {
-                            $currentType = "normal";
-                            // checks if string is null
-                            if (strlen($childChildNode->textContent) !== 6) {
-                                // checks for events
-                                foreach ($types_of_classes as $type) {
-                                    if (strpos($childChildNode->attributes[0]->value, $type) !== false) {
-                                        $currentType = $type;
+                    array_push($tempArray, ["hour" => $counter, "text" => $node->text(), "type" => $currentType]);
+                } // If there is more than 1 hour in block
+                else if ($div->count() > 1) {
+                    // loops through all children
+                    foreach ($node->children() as $row) {
+                        // If child has attribute class with name 'ni_prvi' then this node will loop through children nodes
+                        // that are nested in selected node
+                        if ($row->attributes[1]->name == "class" && $row->attributes[1]->value == "ni_prvi") {
+                            // Loops through children of the child
+                            foreach ($row->childNodes as $childChildNode) {
+                                $currentType = "normal";
+                                // checks if string is null
+                                if (strlen($childChildNode->textContent) !== 6) {
+                                    // checks for events
+                                    foreach ($types_of_classes as $type) {
+                                        if (strpos($childChildNode->attributes[0]->value, $type) !== false) {
+                                            $currentType = $type;
+                                        }
                                     }
+                                    array_push($tempArray, [
+                                            "hour" => $counter,
+                                            "text" => trim(preg_replace('/\s+/', ' ', $childChildNode->textContent)),
+                                            "type" => $currentType
+                                        ]
+                                    );
                                 }
-                                array_push($tempArray, [
-                                        "hour" => $counter,
-                                        "text" => trim(preg_replace('/\s+/', ' ', $childChildNode->textContent)),
-                                        "type" => $currentType
-                                    ]
-                                );
                             }
-                        }
-                    } else {
-                        // checks for events
-                        $currentType = "normal";
-                        foreach ($types_of_classes as $type) {
-                            $check = $node->children()->first()->filter('.ednevnik-seznam_ur_teden-td-' . $type);
-                            if ($check->count() > 0) {
-                                $currentType = $type;
+                        } else {
+                            // checks for events
+                            $currentType = "normal";
+                            foreach ($types_of_classes as $type) {
+                                $check = $node->children()->first()->filter('.ednevnik-seznam_ur_teden-td-' . $type);
+                                if ($check->count() > 0) {
+                                    $currentType = $type;
+                                }
                             }
+                            array_push($tempArray, [
+                                    "hour" => $counter,
+                                    "text" => trim(preg_replace('/\s+/', ' ', $row->textContent)),
+                                    "type" => $currentType
+                                ]
+                            );
                         }
-                        array_push($tempArray, [
-                                "hour" => $counter,
-                                "text" => trim(preg_replace('/\s+/', ' ', $row->textContent)),
-                                "type" => $currentType
-                            ]
-                        );
                     }
                 }
-            }
-            $counter++;
-        });
-        error_log("Here3");
-        error_log(print_r($tempArray));
-        $this->formatData($tempArray);
+                $counter++;
+            });
+            error_log("Here3");
+            error_log(print_r($tempArray));
+            $this->formatData($tempArray);
+        }
+        catch(\Exception $e){
+            error_log(print_r($e));
+        }
     }
 
 }
