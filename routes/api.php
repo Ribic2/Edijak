@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TeacherController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +15,10 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::get('/group/{id}/schedule', [ScheduleController::class, 'getSchedule']);
+Route::get('/student/{id}/schedule', [StudentController::class, 'getSchedule']);
 Route::post('/user/login', [AuthController::class, 'login']);
 
-Route::post('/test', [AuthController::class, 'test']);
+// works teacher
+Route::get('/teacher/schedule', [TeacherController::class, 'getSchedules']);
+Route::get('/teacher/groups', [TeacherController::class, 'allGroups']);
+

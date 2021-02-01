@@ -6,7 +6,7 @@ use App\Models\Group;
 use Carbon\Carbon;
 use App\Models\Schedule as ScheduleModel;
 use Illuminate\Console\Scheduling\Schedule;
-use App\Http\Controllers\ScraperController;
+use App\Http\Controllers\Scraper\ScraperController;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
@@ -23,21 +23,22 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call(function(){
+        $schedule->call(function () {
 
-            if(ScheduleModel::whereDate('created_at', Carbon::today())->count() == 0){
+            if (ScheduleModel::whereDate('created_at', Carbon::today())->count() == 0) {
                 $groups = Group::all();
-                foreach ($groups as $group){
+                foreach ($groups as $group) {
                     $scraper = new ScraperController($group->groupName, $group->groupUrl);
                     $scraper->scrapData();
                 }
             }
-        })->everyMinute();
+            error_log("Data was scrapped successfully!");
+        })->everyMinute()->appendOutputTo(storage_path('logs/inspire.log'));
     }
 
     /**
@@ -47,7 +48,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

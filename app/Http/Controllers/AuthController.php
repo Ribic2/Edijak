@@ -9,10 +9,6 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
-
-    public function test(){
-        broadcast(New UpdateNotificationText())->toOthers();
-    }
     /**
      * Returns teacher data
      * @return JsonResponse
