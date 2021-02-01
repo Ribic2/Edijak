@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->call(function () {
 
-            if (Schedule::whereDate('created_at', Carbon::today())->count() == 0) {
+            if (ScheduleModel::whereDate('created_at', Carbon::today())->count() == 0) {
                 $groups = Group::all();
                 foreach ($groups as $group) {
                     error_log($group->groupName);
