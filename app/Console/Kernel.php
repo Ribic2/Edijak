@@ -39,7 +39,7 @@ class Kernel extends ConsoleKernel
                 }
             }
             error_log("Data was scrapped successfully!");
-        })->everyMinute()->appendOutputTo(storage_path('logs/inspire.log'));
+        })->everyMinute();
     }
 
     /**
