@@ -214,18 +214,18 @@ class ScraperController extends Controller
      */
     public function scrapData()
     {
+
+
+        $client = new Client();
+        $crawler = $client->request('GET', $this->easistentClassUrl);
+
+        // Counter counts hours
+        (int)$counter = 1;
+        (array)$tempArray = [];
+        (array)$types_of_classes = ['nadomescanje', 'zaposlitev', 'dogodek', 'odpadlo'];
+
+        // If there is no event data wil be formatted normally
         try {
-
-            $client = new Client();
-            $crawler = $client->request('GET', $this->easistentClassUrl);
-
-            // Counter counts hours
-            (int)$counter = 1;
-            (array)$tempArray = [];
-            (array)$types_of_classes = ['nadomescanje', 'zaposlitev', 'dogodek', 'odpadlo'];
-
-            // If there is no event data wil be formatted normally
-
             error_log("Here");
             // Gets school timetable for today
             $crawler->filter('.ednevnik-seznam_ur_teden-td.ednevnik-seznam_ur_teden-td-danes')->each(function ($node)
@@ -290,11 +290,9 @@ class ScraperController extends Controller
                 }
                 $counter++;
             });
-            error_log("Here3");
             error_log(print_r($tempArray));
             $this->formatData($tempArray);
-        }
-        catch(\Exception $e){
+        } catch (\Exception $e) {
             error_log(print_r($e));
         }
     }
