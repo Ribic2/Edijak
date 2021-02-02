@@ -3,9 +3,8 @@
 namespace App\Models;
 
 
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use App\Traits\Voter;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -14,9 +13,9 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable, hasRoles;
+    use Notifiable, hasRoles, Voter, HasFactory;
 
-    protected $guard_name = 'api';
+    protected string $guard_name = 'api';
     /**
      * The attributes that are mass assignable.
      *
@@ -49,6 +48,7 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.

@@ -1,56 +1,69 @@
 <template>
     <v-app>
-        <v-app-bar app>
+        <v-app-bar absolute color="primary" dark>
             <v-toolbar-title>Edijak</v-toolbar-title>
         </v-app-bar>
 
         <v-main>
-            <v-container>
+            <v-container fluid>
                 <v-row
+                    class="row-height"
+                    align-content="center"
                     justify="center"
                 >
                     <v-col
                         cols="12"
-                        xl="4"
+                        xl="3"
                         lg="4"
-                        md="6"
+                        md="5"
                         sm="7"
                     >
-                        <v-card height="400">
-                            <v-card-title>
-                                Prijavi se kot dijak!
-                            </v-card-title>
+                        <v-expand-transition>
+                            <v-card
+                                color="accent"
+                                min-height="250"
+                                :elevation="$vuetify.breakpoint.mobile ? 0 : 5"
+                            >
+                                <v-card-title>
+                                    Prijavi se
+                                </v-card-title>
 
-                            <v-card-text>
-                                <v-form>
-                                    <v-text-field
-                                        v-model="email"
-                                        placeholder="E-naslov"
-                                    >
+                                <v-card-text>
+                                    <v-form>
+                                        <v-text-field
+                                            :prepend-icon="'mdi-email'"
+                                            v-model="user.email"
+                                            placeholder="E-naslov"
+                                        >
+                                        </v-text-field>
 
-                                    </v-text-field>
+                                        <v-text-field
+                                            :prepend-icon="'mdi-lock'"
+                                            :append-icon="enable ? 'mdi-eye' : 'mdi-eye-off'"
+                                            @click:append="enable = !enable"
+                                            v-model="user.password"
+                                            :type="enable ? 'text' : 'password'"
+                                            placeholder="Geslo"
+                                        >
+                                        </v-text-field>
 
-                                    <v-text-field
-                                        v-model="password"
-                                        type="password"
-                                        placeholder="Geslo"
-                                    >
+                                        <v-btn
+                                            block
+                                            color="info"
+                                            @click="login"
+                                        >Prijavi se
+                                        </v-btn>
+                                    </v-form>
 
-                                    </v-text-field>
+                                    <v-expand-transition>
+                                        <v-alert type="error" class="mt-3" v-if="error">
+                                            {{ error }}
+                                        </v-alert>
+                                    </v-expand-transition>
 
-                                    <v-btn
-                                        block
-                                        @click="login"
-                                    >Prijavi se
-                                    </v-btn>
-                                </v-form>
-
-                                <v-alert type="error" class="mt-3">
-                                    Napačni podatki!
-                                </v-alert>
-
-                            </v-card-text>
-                        </v-card>
+                                </v-card-text>
+                            </v-card>
+                        </v-expand-transition>
                     </v-col>
                 </v-row>
             </v-container>
@@ -61,25 +74,23 @@
 <script>
 
 import {Factory} from "../../Services/Api/Factory";
-
 const User = Factory.get('User')
 
 export default {
-
     data() {
         return {
-            email: null,
-            password: null
+            user: {
+                email: null,
+                password: null
+            },
+            // Error message
+            error: null,
+            enable: false
         }
     },
     methods: {
         login() {
-            let data = {
-                "email": this.email,
-                "password": this.password
-            }
-
-            User.login(data)
+            User.login(this.user)
                 .then((response) => {
                     // Logs in user and sets localstorage and Vuex store
                     // If credentials are correct
@@ -89,13 +100,28 @@ export default {
                     // Depending on the role of logged in user redirects happens
                     // If user if found to be a teacher, it is redirected to /teacher
                     // else it's redirected to /webapp
+
+                    console.log(response.data.teacher)
                     if (response.data.teacher) {
-                        this.$router.push({name: 'teacher'})
+                        window.location.href = "/teacher"
                     } else {
-                        this.$router.push({name: 'student'})
+                        window.location.href = "/webapp"
+                        // this.$router.push({name: 'student'})
                     }
+                }).catch((err) => {
+                    this.error = err.response.data.message
                 })
         }
     }
 }
 </script>
+
+<style>
+    .row-height{
+        height: 100vh;
+    }
+    .row-height:nth-child(1){
+        background-image: url("https://images.pexels.com/photos/5088017/pexels-photo-5088017.jpeg?auto=compress&cs=tinysrgb");
+        background-size: cover;
+    }
+</style>

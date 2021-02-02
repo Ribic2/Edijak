@@ -1,44 +1,64 @@
 <template>
     <v-container fluid>
         <v-row>
-            <v-col cols="3">
+            <v-col>
                 <v-card>
-                    <h1>test</h1>
-                </v-card>
-            </v-col>
-            <v-col cols="9">
-                <v-card>
-                    <h1>test</h1>
+                    <v-card-title>
+                        Dogodki in Ankete
+                    </v-card-title>
                 </v-card>
             </v-col>
         </v-row>
-
-        <!-- Add new reminder dialog-->
-        <add-reminder-dialog></add-reminder-dialog>
+        <v-row>
+            <v-col cols="12" xl="4" lg="6" md="6">
+                <v-card :elevation="0">
+                    <v-card-title>Dogodki</v-card-title>
+                    <v-card-text>
+                        <v-row>
+                            <v-col cols="12" v-for="(event, index) in events" :key="index">
+                                <event :data="event"/>
+                            </v-col>
+                        </v-row>
+                    </v-card-text>
+                </v-card>
+            </v-col>
+            <v-col cols="12" xl="8" lg="6" md="6">
+                <v-card-title>Ankete</v-card-title>
+                <v-divider></v-divider>
+                <v-row class="mt-1">
+                    <v-col cols="12" v-for="(poll, index) in polls" :key="index">
+                        <poll :data="poll.poll" :answered="poll.answer"/>
+                    </v-col>
+                </v-row>
+            </v-col>
+        </v-row>
     </v-container>
 </template>
 
 <script>
-import addReminderDialog from "./addReminderDialog";
+import {Factory} from "../../../../Services/Api/Factory";
+import Poll from "./poll";
+import Event from "./event";
+import Response from "../../../Components/Response";
+
+const Student = Factory.get('Student')
 
 export default {
     name: "view",
-    components: {addReminderDialog},
+    components: {Event, Poll, Response},
     data() {
         return {
-            test: null
+            polls: [],
+            events: []
         }
     },
     mounted() {
-        Echo
-            .listen('edijak', 'UpdateNotificationText', (e) => {
-                console.log(e)
-                this.test = e
+        Student.getPollsAndEvents()
+            .then((res) => {
+                this.polls = res.data.polls
+                this.events = res.data.events
             })
     }
 }
 </script>
 
-<style scoped>
-
-</style>

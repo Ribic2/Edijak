@@ -1,5 +1,12 @@
 <template>
-    <v-container>
+    <v-container fluid>
+        <v-row>
+            <v-col cols="12">
+                <v-card>
+                    <v-card-title>Urnik</v-card-title>
+                </v-card>
+            </v-col>
+        </v-row>
         <v-row v-for="(schedule, index) in schedules" :key="index" no-gutters>
             <v-col cols="2">
                 <v-card height="80" outlined class="rounded-0">
@@ -11,7 +18,6 @@
                 <v-card
                     v-if="schedule.schedules"
                     height="80" outlined class="rounded-0"
-                    color="#f2f2f2"
                 >
                     {{ schedule.schedules.subject }}
                     {{ schedule.schedules.class }}
@@ -20,6 +26,7 @@
                     v-else
                     height="80"
                     outlined
+                    color="#f2f2f2"
                     class="rounded-0"
                 >
                     odmor

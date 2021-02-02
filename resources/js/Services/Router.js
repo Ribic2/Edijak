@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import VueRouter from "vue-router";
+import {Factory} from "../Services/Api/Factory"
+const Student = Factory.get('Student')
+const Teacher = Factory.get('Teacher')
 
 Vue.use(VueRouter)
 
@@ -8,26 +11,34 @@ const router = new VueRouter({
     routes: [
         // Student layout
         {
+            beforeEnter: (to, from, next)=>{
+                Student.getStudent()
+                    .then((res)=>{
+                        if(!res.data.role){
+                            next()
+                        }
+                        else{
+                            next(false)
+                        }
+                    })
+                    .catch((err)=>{
+                        next({name: 'login'})
+                    })
+            },
             path: '/webapp',
             name: 'student',
             component: () => import('../App/Layout/student'),
             children: [
                 {
                     path: '',
+                    name: 'home',
                     component: () => import('../App/Pages/Student/Schedule')
                 },
                 {
-                    path: 'reminder',
-                    component: () => import('../App/Pages/Student/Reminder')
-                },
-                {
+                    name: 'messages',
                     path: 'notices',
                     component: () => import('../App/Pages/Student/Reminder')
                 },
-                {
-                    path: 'schedule',
-                    component: () => import('../App/Pages/Student/Schedule')
-                }
             ]
         },
         // Teacher layout
@@ -35,6 +46,20 @@ const router = new VueRouter({
             name: 'teacher',
             path: '/teacher',
             component: () => import('../App/Layout/teacher'),
+            beforeEnter: (to, from, next)=>{
+                Teacher.getTeacher()
+                    .then((res)=>{
+                        if(res.data.role){
+                            next()
+                        }
+                        else{
+                            next(false)
+                        }
+                    })
+                    .catch((err)=>{
+                        next({name: 'login'})
+                    })
+            },
             children: [
                 {
                     path: '',
@@ -51,12 +76,18 @@ const router = new VueRouter({
                     name: 'groups',
                     component: () => import('../App/Pages/Teacher/Groups/index')
                 },
+                {
+                    path: 'group/:id',
+                    name: 'group',
+                    component: ()=>import('../App/Pages/Teacher/Groups/group')
+                }
             ]
         },
 
         // Login layout
         {
             path: '/',
+            name: 'login',
             component: () => import('../App/Layout/login')
         }
     ]

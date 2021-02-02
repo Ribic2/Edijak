@@ -64,49 +64,44 @@ class TeacherController extends Controller
             }
         }
     }
+
     /**
      * Scraps data from SESTG teacher council and stores it to temporary array
      */
     public function scrapData()
     {
-        // Checks if data was already inserted
-        if (User::all()->count() == 0) {
-            $client = new Client();
-            (string)$tempString = "";
-            (array)$tempArray = [];
+        $client = new Client();
+        (string)$tempString = "";
+        (array)$tempArray = [];
 
-            $crawler = $client->request('GET', 'https://www.sc-nm.si/sestg/informacije/zaposleni_2/uciteljski-zbor-sestg');
+        $crawler = $client->request('GET', 'https://www.sc-nm.si/sestg/informacije/zaposleni_2/uciteljski-zbor-sestg');
 
-            $data = $crawler->filter('.page-part-content > .moja_tabela > tbody > tr > td');
+        $data = $crawler->filter('.page-part-content > .moja_tabela > tbody > tr > td');
 
-            // Loops through data and formats it together into a string and pushes it do temporary array;
-            $len = count($data);
-            $i = 0;
-            foreach ($data as $node) {
-                if (!is_numeric($node->nodeValue)) {
-                    if ($tempString == null) {
-                        $tempString .= $node->nodeValue;
-                    } // Determines if iteration is last
-                    else if ($i == $len - 1) {
-                        $tempString .= "=" . $node->nodeValue;
-                        array_push($tempArray, $tempString);
-                    } else {
-                        $tempString .= "=" . $node->nodeValue;
-                    }
-                } else {
+        // Loops through data and formats it together into a string and pushes it do temporary array;
+        $len = count($data);
+        $i = 0;
+        foreach ($data as $node) {
+            if (!is_numeric($node->nodeValue)) {
+                if ($tempString == null) {
+                    $tempString .= $node->nodeValue;
+                } // Determines if iteration is last
+                else if ($i == $len - 1) {
+                    $tempString .= "=" . $node->nodeValue;
                     array_push($tempArray, $tempString);
-                    $tempString = "";
+                } else {
+                    $tempString .= "=" . $node->nodeValue;
                 }
-                $i++;
+            } else {
+                array_push($tempArray, $tempString);
+                $tempString = "";
             }
-
-            // Removes first item from array since it's not the data I need
-            array_shift($tempArray);
-            error_log(print_r($tempArray));
-            $this->formatDataAndStoreIt($tempArray);
-
-        } else {
-            abort(403, "Data already scrapped and inserted!");
+            $i++;
         }
+
+        // Removes first item from array since it's not the data I need
+        array_shift($tempArray);
+        error_log(print_r($tempArray));
+        $this->formatDataAndStoreIt($tempArray);
     }
 }

@@ -226,11 +226,9 @@ class ScraperController extends Controller
 
         // If there is no event data wil be formatted normally
         try {
-            error_log("Here");
             // Gets school timetable for today
             $crawler->filter('.ednevnik-seznam_ur_teden-td.ednevnik-seznam_ur_teden-td-danes')->each(function ($node)
             use ($types_of_classes, &$tempArray, &$counter) {
-                error_log("Here2");
                 $div = $node->children();
                 if ($div->count() == 1) {
                     $currentType = "normal";
@@ -290,7 +288,6 @@ class ScraperController extends Controller
                 }
                 $counter++;
             });
-            error_log(print_r($tempArray));
             $this->formatData($tempArray);
         } catch (\Exception $e) {
             error_log(print_r($e));

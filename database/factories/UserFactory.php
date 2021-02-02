@@ -22,12 +22,16 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $name = $this->faker->name;
+        $surname = $this->faker->name;
+
         return [
-            'name' => $this->faker->name,
+            'name' => $name,
+            'surname' => $surname,
             'email' => $this->faker->unique()->safeEmail,
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
+            'password' => 'test', // password
+            'nameAndSurname' => ucfirst($name[0]).". ".$surname,
+            'groupId' => $this->faker->numberBetween($min=1, $max=39)
         ];
     }
 }
