@@ -3,9 +3,7 @@
 namespace App\Models;
 
 
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use App\Traits\Voter;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -14,9 +12,9 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable, hasRoles;
+    use Notifiable, hasRoles, Voter;
 
-    protected $guard_name = 'api';
+    protected string $guard_name = 'api';
     /**
      * The attributes that are mass assignable.
      *

@@ -14,20 +14,14 @@ const router = new VueRouter({
             children: [
                 {
                     path: '',
+                    name: 'home',
                     component: () => import('../App/Pages/Student/Schedule')
                 },
                 {
-                    path: 'reminder',
-                    component: () => import('../App/Pages/Student/Reminder')
-                },
-                {
+                    name: 'messages',
                     path: 'notices',
                     component: () => import('../App/Pages/Student/Reminder')
                 },
-                {
-                    path: 'schedule',
-                    component: () => import('../App/Pages/Student/Schedule')
-                }
             ]
         },
         // Teacher layout
@@ -51,6 +45,11 @@ const router = new VueRouter({
                     name: 'groups',
                     component: () => import('../App/Pages/Teacher/Groups/index')
                 },
+                {
+                    path: 'group/:id',
+                    name: 'group',
+                    component: ()=>import('../App/Pages/Teacher/Groups/group')
+                }
             ]
         },
 
