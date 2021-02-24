@@ -3,6 +3,9 @@ const prefix = 'student'
 
 export default {
     getSchedule(id){
-        return api.get(`${prefix}/${id}/schedule`)
+        return api.get(`${prefix}/schedule`)
+    },
+    getPollsAndEvents(){
+        return api.get(`${prefix}/polls`)
     }
 }

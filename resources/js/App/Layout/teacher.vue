@@ -24,9 +24,6 @@
                 </v-list-item>
             </v-list>
         </v-navigation-drawer>
-        <v-app-bar app>
-            <v-toolbar-title>Edijak</v-toolbar-title>
-        </v-app-bar>
 
         <v-main>
             <transition

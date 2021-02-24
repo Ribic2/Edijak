@@ -18,21 +18,23 @@
                     >
                         <v-card height="400">
                             <v-card-title>
-                                Prijavi se kot dijak!
+                                Prijavi se!
                             </v-card-title>
 
                             <v-card-text>
                                 <v-form>
                                     <v-text-field
-                                        v-model="email"
+                                        v-model="user.email"
                                         placeholder="E-naslov"
                                     >
 
                                     </v-text-field>
 
                                     <v-text-field
-                                        v-model="password"
-                                        type="password"
+                                        :prepend-icon="enable ? 'mdi-eye' : 'mdi-eye-off'"
+                                        @click:prepend="enable = !enable"
+                                        v-model="user.password"
+                                        :type="enable ? 'text' : 'password'"
                                         placeholder="Geslo"
                                     >
 
@@ -45,8 +47,8 @@
                                     </v-btn>
                                 </v-form>
 
-                                <v-alert type="error" class="mt-3">
-                                    Napačni podatki!
+                                <v-alert type="error" class="mt-3" v-if="error">
+                                    {{ error }}
                                 </v-alert>
 
                             </v-card-text>
@@ -61,25 +63,23 @@
 <script>
 
 import {Factory} from "../../Services/Api/Factory";
-
 const User = Factory.get('User')
 
 export default {
-
     data() {
         return {
-            email: null,
-            password: null
+            user: {
+                email: null,
+                password: null
+            },
+            // Error message
+            error: null,
+            enable: false
         }
     },
     methods: {
         login() {
-            let data = {
-                "email": this.email,
-                "password": this.password
-            }
-
-            User.login(data)
+            User.login(this.user)
                 .then((response) => {
                     // Logs in user and sets localstorage and Vuex store
                     // If credentials are correct
@@ -94,6 +94,8 @@ export default {
                     } else {
                         this.$router.push({name: 'student'})
                     }
+                }).catch((err) => {
+                    this.error = err.response.data.message
                 })
         }
     }

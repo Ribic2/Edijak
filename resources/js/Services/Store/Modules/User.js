@@ -1,6 +1,6 @@
 export default {
     state:{
-        user: null
+        user: []
     },
     mutations:{
         SET_USER(state, payload){

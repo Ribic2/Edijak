@@ -11,7 +11,6 @@
                 <v-card
                     v-if="schedule.schedules"
                     height="80" outlined class="rounded-0"
-                    color="#f2f2f2"
                 >
                     {{ schedule.schedules.subject }}
                     {{ schedule.schedules.class }}
@@ -20,6 +19,7 @@
                     v-else
                     height="80"
                     outlined
+                    color="#f2f2f2"
                     class="rounded-0"
                 >
                     odmor

@@ -462,7 +462,7 @@ var render = function() {
                     "v-card",
                     {
                       staticClass: "rounded-0",
-                      attrs: { height: "80", outlined: "", color: "#f2f2f2" }
+                      attrs: { height: "80", outlined: "" }
                     },
                     [
                       _vm._v(
@@ -478,7 +478,7 @@ var render = function() {
                     "v-card",
                     {
                       staticClass: "rounded-0",
-                      attrs: { height: "80", outlined: "" }
+                      attrs: { height: "80", outlined: "", color: "#f2f2f2" }
                     },
                     [_vm._v("\n                odmor\n            ")]
                   )
@@ -624,7 +624,10 @@ __webpack_require__.r(__webpack_exports__);
 var prefix = 'student';
 /* harmony default export */ __webpack_exports__["default"] = ({
   getSchedule: function getSchedule(id) {
-    return _api__WEBPACK_IMPORTED_MODULE_0__["default"].get("".concat(prefix, "/").concat(id, "/schedule"));
+    return _api__WEBPACK_IMPORTED_MODULE_0__["default"].get("".concat(prefix, "/schedule"));
+  },
+  getPollsAndEvents: function getPollsAndEvents() {
+    return _api__WEBPACK_IMPORTED_MODULE_0__["default"].get("".concat(prefix, "/polls"));
   }
 });
 
@@ -648,6 +651,20 @@ var prefix = 'teacher';
   },
   getSchedule: function getSchedule() {
     return _api__WEBPACK_IMPORTED_MODULE_0__["default"].get("".concat(prefix, "/schedule"));
+  },
+  getStudentsForSelectedHour: function getStudentsForSelectedHour(groupName) {
+    return _api__WEBPACK_IMPORTED_MODULE_0__["default"].post("".concat(prefix, "/group/students"), {
+      groupName: groupName
+    });
+  },
+  createEvent: function createEvent(data) {
+    return _api__WEBPACK_IMPORTED_MODULE_0__["default"].post("".concat(prefix, "/event"), data);
+  },
+  createPoll: function createPoll(data) {
+    return _api__WEBPACK_IMPORTED_MODULE_0__["default"].post("".concat(prefix, "/poll"), data);
+  },
+  getGroup: function getGroup(id) {
+    return _api__WEBPACK_IMPORTED_MODULE_0__["default"].get("".concat(prefix, "/group/").concat(id));
   }
 });
 
@@ -668,6 +685,9 @@ var prefix = 'user';
 /* harmony default export */ __webpack_exports__["default"] = ({
   login: function login(data) {
     return _api__WEBPACK_IMPORTED_MODULE_0__["default"].post("".concat(prefix, "/login"), data);
+  },
+  getUser: function getUser() {
+    return _api__WEBPACK_IMPORTED_MODULE_0__["default"].get("".concat(prefix));
   }
 });
 
@@ -686,7 +706,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
 /* harmony default export */ __webpack_exports__["default"] = (axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
-  baseURL: '/api/'
+  baseURL: '/api/',
+  headers: {
+    Authorization: 'Bearer ' + localStorage.getItem('token')
+  }
 }));
 
 /***/ })

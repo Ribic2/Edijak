@@ -39,7 +39,7 @@ class Kernel extends ConsoleKernel
                 }
             }
             error_log("Data was scrapped successfully!");
-        })->everyFiveMinutes();
+        })->everyMinute();
     }
 
     /**

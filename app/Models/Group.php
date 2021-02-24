@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Schedule;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Auth;
 
 
 /**
@@ -21,8 +20,8 @@ class Group extends Model
     use HasFactory;
 
 
-    public function schedules()
+    public function schedules(): BelongsTo
     {
-        return $this->belongsTo(Schedule::class)->where(['userId' => 15]);
+        return $this->belongsTo(Schedule::class)->where(['userId' => Auth::id()]);
     }
 }

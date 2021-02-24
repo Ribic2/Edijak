@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Auth;
 
 class Hour extends Model
 {
@@ -14,7 +15,7 @@ class Hour extends Model
     public function schedules(): HasOne
     {
         return $this->hasOne(\App\Models\Schedule::class, 'hourId', 'id')
-            ->where('userId', 15)
+            ->where('userId', Auth::id())
             ->whereDate('Created_at', Carbon::today());
     }
 }

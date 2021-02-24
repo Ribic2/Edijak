@@ -3,13 +3,14 @@
         <v-row>
             <v-col cols="4">
                 <v-card>
-                    {{ schedules }}
+                    <v-card-title>Dijaki</v-card-title>
                 </v-card>
             </v-col>
             <v-col cols="8">
                 <v-card height="87vh">
-                    <p>{{ date }}</p>
                     <p>{{ checkHour }}</p>
+                    <p>{{ currentHour }}</p>
+                    <p>{{ group }}</p>
                 </v-card>
             </v-col>
         </v-row>
@@ -28,20 +29,32 @@ export default {
         return {
             schedules: [],
             date: moment(),
+            currentHour: null,
+            group: null
         }
     },
     computed: {
         checkHour() {
             let format = 'hh:mm'
             for (let i = 0; i < this.schedules.length; i++) {
-                if (this.date.isBetween(moment(this.schedules[i].from, format), moment(this.schedules[i].to, format)))
+                if (this.date.isBetween(moment(this.schedules[i].from, format), moment(this.schedules[i].to, format))) {
+                    this.currentHour = this.schedules[i]
                     return this.schedules[i]
+                }
             }
-        }
+        },
     },
-    created() {
-        setInterval(() => this.date = moment(), 1000)
-    },
+    /*created() {
+        setInterval(() => {
+            this.date = moment()
+            if (this.checkHour == null || this.currentHour !== this.checkHour || this.group.length === 0) {
+                Teacher.getStudentsForSelectedHour(this.currentHour.schedules.class)
+                    .then((response) => {
+                        this.group = response
+                    })
+            }
+        }, 1000)
+    },*/
     // Set schedules
     async mounted() {
         try {
