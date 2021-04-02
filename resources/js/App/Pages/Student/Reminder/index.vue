@@ -1,7 +1,16 @@
 <template>
     <v-container fluid>
         <v-row>
-            <v-col cols="3">
+            <v-col>
+                <v-card>
+                    <v-card-title>
+                        Dogodki in Ankete
+                    </v-card-title>
+                </v-card>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col cols="12" xl="4" lg="6" md="6">
                 <v-card :elevation="0">
                     <v-card-title>Dogodki</v-card-title>
                     <v-card-text>
@@ -13,12 +22,12 @@
                     </v-card-text>
                 </v-card>
             </v-col>
-            <v-col cols="9">
+            <v-col cols="12" xl="8" lg="6" md="6">
                 <v-card-title>Ankete</v-card-title>
                 <v-divider></v-divider>
                 <v-row class="mt-1">
                     <v-col cols="12" v-for="(poll, index) in polls" :key="index">
-                        <poll :data="poll"/>
+                        <poll :data="poll.poll" :answered="poll.answer"/>
                     </v-col>
                 </v-row>
             </v-col>
@@ -30,12 +39,13 @@
 import {Factory} from "../../../../Services/Api/Factory";
 import Poll from "./poll";
 import Event from "./event";
+import Response from "../../../Components/Response";
 
 const Student = Factory.get('Student')
 
 export default {
     name: "view",
-    components: {Event, Poll},
+    components: {Event, Poll, Response},
     data() {
         return {
             polls: [],

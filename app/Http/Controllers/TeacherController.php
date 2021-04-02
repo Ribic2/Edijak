@@ -24,6 +24,19 @@ class TeacherController extends Controller
     }
 
     /**
+     * Gets all students off specific group
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getGroupStudents(Request $request): JsonResponse
+    {
+        $className = $request->input('className');
+        $group = Group::where('groupName', $className)->first();
+        return response()->json(
+            User::where('groupId', $group->id)->get()
+        );
+    }
+    /**
      * Get students for selected hour
      * @param Request $request
      * @return JsonResponse

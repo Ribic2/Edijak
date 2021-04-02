@@ -1,6 +1,5 @@
 <template>
     <v-app>
-
         <v-navigation-drawer
             app
             temporary
@@ -23,6 +22,10 @@
                     <v-list-item v-for="(route, index) in routes" :key="index" :to="{name: route.path}">
                        {{ route.name }}
                     </v-list-item>
+
+                    <v-list-item @click="logout">
+                        Odjava
+                    </v-list-item>
                 </v-list-item-group>
             </v-list>
         </v-navigation-drawer>
@@ -30,7 +33,7 @@
         <v-app-bar
             dark
             app
-            color="#0446ff"
+            color="primary"
         >
             <v-app-bar-nav-icon @click="toggle = !toggle"></v-app-bar-nav-icon>
 
@@ -38,7 +41,7 @@
 
             <v-spacer></v-spacer>
 
-            <v-chip color="#6f63ff">
+            <v-chip color="secondary">
                 <v-icon>
                     mdi-account
                 </v-icon>
@@ -81,6 +84,11 @@ export default {
                     path: 'messages'
                 }
             ]
+        }
+    },
+    methods:{
+        logout(){
+            this.$store.commit('LOGOUT');
         }
     },
     mounted() {

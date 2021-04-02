@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Answer extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['userId', 'optionId', 'pollId'];
+
+    public function option(){
+        return $this->hasOne(Option::class, 'pollId');
+    }
 }
