@@ -48,11 +48,14 @@
                 </v-col>
             </v-row>
         </v-card-text>
+
+        <response icon="mdi-check" color="green" text="Dogodek je bil uspešno dodan"></response>
     </v-card>
 
 </template>
 
 <script>
+import Response from "../../../Components/Response";
 import addNewEvent from "./addNewEvent";
 import newVoteEvent from './newVoteEvent'
 import {Factory} from "../../../../Services/Api/Factory";
@@ -62,7 +65,8 @@ const Teacher = Factory.get('Teacher')
 export default {
     components: {
         addNewEvent,
-        newVoteEvent
+        newVoteEvent,
+        Response
     },
     name: "group",
     data() {

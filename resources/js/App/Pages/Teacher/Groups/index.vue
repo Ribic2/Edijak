@@ -1,10 +1,17 @@
 <template>
-    <v-container>
+    <v-container fluid>
         <v-row>
-            <v-col cols="4" v-for="(group, index) in groups" :key="index">
+            <v-col cols="12">
+                <v-card>
+                    <v-card-title>Razredi</v-card-title>
+                </v-card>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col cols="3" v-for="(group, index) in groups" :key="index">
                     <v-card height="400px">
                         <v-responsive :aspect-ratio="1" @click="selectGroup(group)">
-                            {{ group.groupName }}
+                            <v-card-title>{{ group.groupName }}</v-card-title>
                         </v-responsive>
                     </v-card>
             </v-col>

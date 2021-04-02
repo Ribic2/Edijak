@@ -1,5 +1,4 @@
 <template>
-
     <v-card>
         <v-simple-table>
             <template v-slot:default>
