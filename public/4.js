@@ -101,6 +101,7 @@ var Student = _Services_Api_Factory__WEBPACK_IMPORTED_MODULE_0__["Factory"].get(
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Services_Api_Factory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../Services/Api/Factory */ "./resources/js/Services/Api/Factory.js");
 //
 //
 //
@@ -123,6 +124,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+
+var Student = _Services_Api_Factory__WEBPACK_IMPORTED_MODULE_0__["Factory"].get('Student');
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -131,7 +141,18 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   name: "poll",
-  props: ["data"]
+  props: ["data"],
+  methods: {
+    sendAnswer: function sendAnswer() {
+      var pollAndAnswer = {
+        "pollId": this.data.id,
+        "answerId": this.answer
+      };
+      Student.addAnswer(pollAndAnswer).then(function (res) {
+        console.log(res);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -194,7 +215,7 @@ var render = function() {
         [
           _c(
             "v-col",
-            { attrs: { cols: "3" } },
+            { attrs: { cols: "12", xl: "4", lg: "6", md: "6" } },
             [
               _c(
                 "v-card",
@@ -229,7 +250,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-col",
-            { attrs: { cols: "9" } },
+            { attrs: { cols: "12", xl: "8", lg: "6", md: "6" } },
             [
               _c("v-card-title", [_vm._v("Ankete")]),
               _vm._v(" "),
@@ -309,11 +330,15 @@ var render = function() {
                 _vm._l(_vm.options, function(option, index) {
                   return _c("v-radio", {
                     key: index,
-                    attrs: { label: "" + option.option }
+                    attrs: { value: option.id, label: "" + option.option }
                   })
                 }),
                 1
               )
+            : _vm._e(),
+          _vm._v(" "),
+          !_vm.data.isFinished
+            ? _c("v-btn", { on: { click: _vm.sendAnswer } }, [_vm._v("Oddaj")])
             : _vm._e()
         ],
         1
@@ -539,8 +564,9 @@ __webpack_require__.r(__webpack_exports__);
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 /* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../../node_modules/vuetify-loader/lib/runtime/installComponents.js */ "./node_modules/vuetify-loader/lib/runtime/installComponents.js");
 /* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
-/* harmony import */ var vuetify_lib_components_VRadioGroup__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VRadioGroup */ "./node_modules/vuetify/lib/components/VRadioGroup/index.js");
+/* harmony import */ var vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuetify/lib/components/VBtn */ "./node_modules/vuetify/lib/components/VBtn/index.js");
+/* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
+/* harmony import */ var vuetify_lib_components_VRadioGroup__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VRadioGroup */ "./node_modules/vuetify/lib/components/VRadioGroup/index.js");
 
 
 
@@ -566,7 +592,8 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_4__["VCard"],VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_4__["VCardText"],VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_4__["VCardTitle"],VRadio: vuetify_lib_components_VRadioGroup__WEBPACK_IMPORTED_MODULE_5__["VRadio"],VRadioGroup: vuetify_lib_components_VRadioGroup__WEBPACK_IMPORTED_MODULE_5__["VRadioGroup"]})
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__["VBtn"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["VCard"],VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["VCardText"],VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["VCardTitle"],VRadio: vuetify_lib_components_VRadioGroup__WEBPACK_IMPORTED_MODULE_6__["VRadio"],VRadioGroup: vuetify_lib_components_VRadioGroup__WEBPACK_IMPORTED_MODULE_6__["VRadioGroup"]})
 
 
 /* hot reload */
@@ -605,139 +632,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_poll_vue_vue_type_template_id_234e2b61___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
-
-/***/ }),
-
-/***/ "./resources/js/Services/Api/Factory.js":
-/*!**********************************************!*\
-  !*** ./resources/js/Services/Api/Factory.js ***!
-  \**********************************************/
-/*! exports provided: Factory */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Factory", function() { return Factory; });
-/* harmony import */ var _Teacher__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Teacher */ "./resources/js/Services/Api/Teacher.js");
-/* harmony import */ var _User__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./User */ "./resources/js/Services/Api/User.js");
-/* harmony import */ var _Student__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Student */ "./resources/js/Services/Api/Student.js");
-
-
-
-var repository = {
-  Teacher: _Teacher__WEBPACK_IMPORTED_MODULE_0__["default"],
-  User: _User__WEBPACK_IMPORTED_MODULE_1__["default"],
-  Student: _Student__WEBPACK_IMPORTED_MODULE_2__["default"]
-};
-var Factory = {
-  get: function get(name) {
-    return repository[name];
-  }
-};
-
-/***/ }),
-
-/***/ "./resources/js/Services/Api/Student.js":
-/*!**********************************************!*\
-  !*** ./resources/js/Services/Api/Student.js ***!
-  \**********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./api */ "./resources/js/Services/Api/api.js");
-
-var prefix = 'student';
-/* harmony default export */ __webpack_exports__["default"] = ({
-  getSchedule: function getSchedule(id) {
-    return _api__WEBPACK_IMPORTED_MODULE_0__["default"].get("".concat(prefix, "/schedule"));
-  },
-  getPollsAndEvents: function getPollsAndEvents() {
-    return _api__WEBPACK_IMPORTED_MODULE_0__["default"].get("".concat(prefix, "/polls"));
-  }
-});
-
-/***/ }),
-
-/***/ "./resources/js/Services/Api/Teacher.js":
-/*!**********************************************!*\
-  !*** ./resources/js/Services/Api/Teacher.js ***!
-  \**********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./api */ "./resources/js/Services/Api/api.js");
-
-var prefix = 'teacher';
-/* harmony default export */ __webpack_exports__["default"] = ({
-  getGroups: function getGroups() {
-    return _api__WEBPACK_IMPORTED_MODULE_0__["default"].get("".concat(prefix, "/groups"));
-  },
-  getSchedule: function getSchedule() {
-    return _api__WEBPACK_IMPORTED_MODULE_0__["default"].get("".concat(prefix, "/schedule"));
-  },
-  getStudentsForSelectedHour: function getStudentsForSelectedHour(groupName) {
-    return _api__WEBPACK_IMPORTED_MODULE_0__["default"].post("".concat(prefix, "/group/students"), {
-      groupName: groupName
-    });
-  },
-  createEvent: function createEvent(data) {
-    return _api__WEBPACK_IMPORTED_MODULE_0__["default"].post("".concat(prefix, "/event"), data);
-  },
-  createPoll: function createPoll(data) {
-    return _api__WEBPACK_IMPORTED_MODULE_0__["default"].post("".concat(prefix, "/poll"), data);
-  },
-  getGroup: function getGroup(id) {
-    return _api__WEBPACK_IMPORTED_MODULE_0__["default"].get("".concat(prefix, "/group/").concat(id));
-  }
-});
-
-/***/ }),
-
-/***/ "./resources/js/Services/Api/User.js":
-/*!*******************************************!*\
-  !*** ./resources/js/Services/Api/User.js ***!
-  \*******************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./api */ "./resources/js/Services/Api/api.js");
-
-var prefix = 'user';
-/* harmony default export */ __webpack_exports__["default"] = ({
-  login: function login(data) {
-    return _api__WEBPACK_IMPORTED_MODULE_0__["default"].post("".concat(prefix, "/login"), data);
-  },
-  getUser: function getUser() {
-    return _api__WEBPACK_IMPORTED_MODULE_0__["default"].get("".concat(prefix));
-  }
-});
-
-/***/ }),
-
-/***/ "./resources/js/Services/Api/api.js":
-/*!******************************************!*\
-  !*** ./resources/js/Services/Api/api.js ***!
-  \******************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-
-/* harmony default export */ __webpack_exports__["default"] = (axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
-  baseURL: '/api/',
-  headers: {
-    Authorization: 'Bearer ' + localStorage.getItem('token')
-  }
-}));
 
 /***/ })
 

@@ -4,7 +4,7 @@ window.Vue = require('vue');
 import App from './App'
 import router from "./Services/Router";
 import Vuetify from "./Services/Vuetify";
-import store from './Services/Store/index'
+import store from './Services/Store/index';
 
 const app = new Vue({
     router,

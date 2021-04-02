@@ -1,29 +1,48 @@
 <template>
     <v-app>
         <v-navigation-drawer
+            temporary
+            color="primary"
+            v-model="toggle"
             app
         >
             <v-list>
                 <v-list-item>
                    <router-link :to="{name: 'teacherHome'}" style="width: 100%">
-                       <v-btn block elevation="0" :ripple="false">Urnik</v-btn>
+                       <v-btn block elevation="0" :ripple="false" color="info" rounded>Urnik</v-btn>
                    </router-link>
                 </v-list-item>
                 <v-list-item>
                    <router-link :to="{name: 'teacherLive'}" style="width: 100%">
-                       <v-btn block elevation="0" :ripple="false">V živo</v-btn>
+                       <v-btn block elevation="0" :ripple="false" color="info" rounded>V živo</v-btn>
                    </router-link>
                 </v-list-item>
                 <v-list-item>
                     <router-link :to="{name: 'groups'}" style="width: 100%">
-                        <v-btn block elevation="0" :ripple="false">Razredi</v-btn>
+                        <v-btn block elevation="0" :ripple="false" color="info" rounded>Razredi</v-btn>
                     </router-link>
-                </v-list-item>
-                <v-list-item>
-                    <v-btn block elevation="0" :ripple="false">Odjavi se</v-btn>
                 </v-list-item>
             </v-list>
         </v-navigation-drawer>
+
+        <v-app-bar
+            app
+            dark
+            color="secondary"
+        >
+            <v-app-bar-nav-icon @click="toggle = !toggle"></v-app-bar-nav-icon>
+            <v-toolbar-title>Eteacher</v-toolbar-title>
+
+
+            <v-spacer></v-spacer>
+            <v-btn
+                color="secondary"
+                :ripple="false"
+                :elevation="0"
+                @click="logout()"
+                rounded
+            ><v-icon>mdi-logout</v-icon>Odjavi se</v-btn>
+        </v-app-bar>
 
         <v-main>
             <transition
@@ -33,9 +52,6 @@
                 <router-view></router-view>
             </transition>
         </v-main>
-
-        <v-footer></v-footer>
-
     </v-app>
 </template>
 
@@ -44,8 +60,18 @@ import moment from "moment";
 
 export default {
     name: "teacher",
+    data(){
+        return{
+            toggle: false
+        }
+    },
     mounted() {
         moment.updateLocale('sl', 'sl')
+    },
+    methods:{
+        logout(){
+            this.$store.commit('LOGOUT');
+        }
     }
 }
 </script>

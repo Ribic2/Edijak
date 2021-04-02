@@ -2,8 +2,14 @@ import api from "./api";
 const prefix = 'teacher'
 
 export default {
+    getTeacher(){
+        return api.get(`${prefix}`)
+    },
     getGroups(){
         return api.get(`${prefix}/groups`)
+    },
+    getGroupStudents(data){
+      return api.post(`${prefix}/groups/students`, {className: data})
     },
     getSchedule(){
         return api.get(`${prefix}/schedule`)
