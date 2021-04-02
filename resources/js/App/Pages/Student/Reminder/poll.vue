@@ -13,14 +13,24 @@
                 <v-radio
                     v-for="(option, index) in options"
                     :key="index"
+                    :value="option.id"
                     :label="`${option.option}`"
                 ></v-radio>
             </v-radio-group>
+
+
+            <v-btn
+                @click="sendAnswer"
+                v-if="!data.isFinished"
+            >Oddaj</v-btn>
         </v-card-text>
     </v-card>
 </template>
 
 <script>
+import {Factory} from "../../../../Services/Api/Factory";
+const Student = Factory.get('Student')
+
 export default {
     data(){
         return{
@@ -31,7 +41,20 @@ export default {
     name: "poll",
     props:[
         "data"
-    ]
+    ],
+    methods:{
+        sendAnswer(){
+            let pollAndAnswer = {
+                "pollId": this.data.id,
+                "answerId": this.answer
+            }
+
+            Student.addAnswer(pollAndAnswer)
+            .then((res)=>{
+                console.log(res)
+            })
+        }
+    }
 }
 </script>
 

@@ -33,6 +33,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 var Teacher = _Services_Api_Factory__WEBPACK_IMPORTED_MODULE_2__["Factory"].get('Teacher');
@@ -102,13 +109,27 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-container",
+    { attrs: { fluid: "" } },
     [
+      _c(
+        "v-row",
+        [
+          _c(
+            "v-col",
+            { attrs: { cols: "12" } },
+            [_c("v-card", [_c("v-card-title", [_vm._v("Razredi")])], 1)],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
       _c(
         "v-row",
         _vm._l(_vm.groups, function(group, index) {
           return _c(
             "v-col",
-            { key: index, attrs: { cols: "4" } },
+            { key: index, attrs: { cols: "3" } },
             [
               _c(
                 "v-card",
@@ -124,13 +145,8 @@ var render = function() {
                         }
                       }
                     },
-                    [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(group.groupName) +
-                          "\n                    "
-                      )
-                    ]
+                    [_c("v-card-title", [_vm._v(_vm._s(group.groupName))])],
+                    1
                   )
                 ],
                 1
@@ -194,7 +210,8 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_4__["VCard"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_5__["VCol"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_5__["VContainer"],VResponsive: vuetify_lib_components_VResponsive__WEBPACK_IMPORTED_MODULE_6__["VResponsive"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_5__["VRow"]})
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_4__["VCard"],VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_4__["VCardTitle"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_5__["VCol"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_5__["VContainer"],VResponsive: vuetify_lib_components_VResponsive__WEBPACK_IMPORTED_MODULE_6__["VResponsive"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_5__["VRow"]})
 
 
 /* hot reload */

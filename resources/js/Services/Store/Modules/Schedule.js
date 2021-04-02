@@ -1,7 +1,8 @@
 export default {
     state:{
         schedule: [],
-        selectedSchedule: null
+        selectedSchedule: null,
+        currentHourStudents: []
     },
     mutations:{
 

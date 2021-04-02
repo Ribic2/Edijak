@@ -13,7 +13,7 @@
             {{ part.subject }}
         </td>
         <td>
-            {{ part.teacher.nameAndSurname }}
+            {{ part.teacher == null ? "" : part.teacher.nameAndSurname }}
         </td>
         <td>
             {{ part.type }}

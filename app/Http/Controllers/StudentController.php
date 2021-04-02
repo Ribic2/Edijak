@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Answer;
 use App\Models\Event;
 use App\Models\Group;
 use App\Models\Poll;
@@ -10,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
@@ -32,8 +34,16 @@ class StudentController extends Controller
      */
     public function getPollsAndEvents(): JsonResponse
     {
+        (array)$availablePolls = [];
+        foreach (Poll::where(['groupId' => Auth::user()->groupId, 'isFinished' => 0])->with('options')->get() as $poll){
+            if(Answer::where(['pollId' => $poll->id, 'userId' => Auth::id()])->count() == 0){
+                array_push($availablePolls, $poll);
+            }
+        }
+
+
         return response()->json([
-            "polls"  => Poll::where('groupId', Auth::user()->groupId)->with('options')->get(),
+            "polls"  => $availablePolls,#Poll::where('groupId', Auth::user()->groupId)->with(['options'])->get(),
             "events" => Event::where('groupId', Auth::user()->groupId)->get()
         ]);
     }

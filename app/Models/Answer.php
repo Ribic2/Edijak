@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Answer extends Model
 {
+    protected $fillable = ['userId', 'optionId', 'pollId'];
     use HasFactory;
 }
