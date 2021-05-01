@@ -41,6 +41,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+<<<<<<< HEAD
+//
+//
+//
+=======
+>>>>>>> 7d518cb2abfb820aa6b8778ece27640a1331a066
 //
 //
 //
@@ -91,6 +97,14 @@ var User = _Services_Api_Factory__WEBPACK_IMPORTED_MODULE_0__["Factory"].get('Us
       }]
     };
   },
+<<<<<<< HEAD
+  methods: {
+    logout: function logout() {
+      this.$store.commit('LOGOUT');
+    }
+  },
+=======
+>>>>>>> 7d518cb2abfb820aa6b8778ece27640a1331a066
   mounted: function mounted() {
     var _this = this;
 
@@ -178,6 +192,28 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-list-item-group",
+<<<<<<< HEAD
+                [
+                  _vm._l(_vm.routes, function(route, index) {
+                    return _c(
+                      "v-list-item",
+                      { key: index, attrs: { to: { name: route.path } } },
+                      [
+                        _vm._v(
+                          "\n                   " +
+                            _vm._s(route.name) +
+                            "\n                "
+                        )
+                      ]
+                    )
+                  }),
+                  _vm._v(" "),
+                  _c("v-list-item", { on: { click: _vm.logout } }, [
+                    _vm._v("\n                    Odjava\n                ")
+                  ])
+                ],
+                2
+=======
                 _vm._l(_vm.routes, function(route, index) {
                   return _c(
                     "v-list-item",
@@ -192,6 +228,7 @@ var render = function() {
                   )
                 }),
                 1
+>>>>>>> 7d518cb2abfb820aa6b8778ece27640a1331a066
               )
             ],
             1
@@ -202,7 +239,11 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-app-bar",
+<<<<<<< HEAD
+        { attrs: { dark: "", app: "", color: "primary" } },
+=======
         { attrs: { dark: "", app: "", color: "#0446ff" } },
+>>>>>>> 7d518cb2abfb820aa6b8778ece27640a1331a066
         [
           _c("v-app-bar-nav-icon", {
             on: {
@@ -218,7 +259,11 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-chip",
+<<<<<<< HEAD
+            { attrs: { color: "secondary" } },
+=======
             { attrs: { color: "#6f63ff" } },
+>>>>>>> 7d518cb2abfb820aa6b8778ece27640a1331a066
             [
               _c("v-icon", [
                 _vm._v("\n                mdi-account\n            ")
@@ -343,8 +388,13 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 
 
+<<<<<<< HEAD
 
 
+=======
+
+
+>>>>>>> 7d518cb2abfb820aa6b8778ece27640a1331a066
 
 
 

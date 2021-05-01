@@ -1,0 +1,39 @@
+Index: public/js/app.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/public/js/app.js b/public/js/app.js
+--- a/public/js/app.js	(revision 7d518cb2abfb820aa6b8778ece27640a1331a066)
++++ b/public/js/app.js	(date 1619877569661)
+@@ -106717,7 +106717,9 @@
+   {
+     beforeEnter: function beforeEnter(to, from, next) {
+       Student.getStudent().then(function (res) {
+-        if (res.data.role) {
++        console.log(res.data.role);
++
++        if (!res.data.role) {
+           next();
+         } else {
+           next(false);
+Index: resources/js/Services/Router.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import Vue from 'vue'\nimport VueRouter from \"vue-router\";\nimport {Factory} from \"../Services/Api/Factory\"\nconst Student = Factory.get('Student')\nconst Teacher = Factory.get('Teacher')\n\nVue.use(VueRouter)\n\nconst router = new VueRouter({\n    mode: 'history',\n    routes: [\n        // Student layout\n        {\n            beforeEnter: (to, from, next)=>{\n                Student.getStudent()\n                    .then((res)=>{\n                        if(res.data.role){\n                            next()\n                        }\n                        else{\n                            next(false)\n                        }\n                    })\n                    .catch((err)=>{\n                        next({name: 'login'})\n                    })\n            },\n            path: '/webapp',\n            name: 'student',\n            component: () => import('../App/Layout/student'),\n            children: [\n                {\n                    path: '',\n                    name: 'home',\n                    component: () => import('../App/Pages/Student/Schedule')\n                },\n                {\n                    name: 'messages',\n                    path: 'notices',\n                    component: () => import('../App/Pages/Student/Reminder')\n                },\n            ]\n        },\n        // Teacher layout\n        {\n            name: 'teacher',\n            path: '/teacher',\n            component: () => import('../App/Layout/teacher'),\n            beforeEnter: (to, from, next)=>{\n                Teacher.getTeacher()\n                    .then((res)=>{\n                        if(res.data.role){\n                            next()\n                        }\n                        else{\n                            next(false)\n                        }\n                    })\n                    .catch((err)=>{\n                        next({name: 'login'})\n                    })\n            },\n            children: [\n                {\n                    path: '',\n                    name: 'teacherHome',\n                    component: () => import('../App/Pages/Teacher/Home/index')\n                },\n                {\n                    path: 'live',\n                    name: 'teacherLive',\n                    component: () => import('../App/Pages/Teacher/CurrentHour/index')\n                },\n                {\n                    path: 'groups',\n                    name: 'groups',\n                    component: () => import('../App/Pages/Teacher/Groups/index')\n                },\n                {\n                    path: 'group/:id',\n                    name: 'group',\n                    component: ()=>import('../App/Pages/Teacher/Groups/group')\n                }\n            ]\n        },\n\n        // Login layout\n        {\n            path: '/',\n            name: 'login',\n            component: () => import('../App/Layout/login')\n        }\n    ]\n});\n\nexport default router\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/resources/js/Services/Router.js b/resources/js/Services/Router.js
+--- a/resources/js/Services/Router.js	(revision 7d518cb2abfb820aa6b8778ece27640a1331a066)
++++ b/resources/js/Services/Router.js	(date 1619877569181)
+@@ -14,7 +14,8 @@
+             beforeEnter: (to, from, next)=>{
+                 Student.getStudent()
+                     .then((res)=>{
+-                        if(res.data.role){
++                        console.log(res.data.role)
++                        if(!res.data.role){
+                             next()
+                         }
+                         else{

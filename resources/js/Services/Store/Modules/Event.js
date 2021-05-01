@@ -1,6 +1,13 @@
 export default {
     state:{
-        selectEventDate: null
+        response: false,
+        selectEventDate: null,
+        spinner: false,
+
+        // response
+        responseText: null,
+        responseIcon: null,
+        responseColor: null
     },
     mutations:{
         SET_EVENT_DATE(state, payload){

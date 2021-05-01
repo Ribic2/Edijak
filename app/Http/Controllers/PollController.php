@@ -47,8 +47,8 @@ class PollController extends Controller
             "optionId" => $request->input('answerId')
         ])->save();
 
-        return response()->json(
-          $request
-        );
+        return response()->json([
+          "response" => "Anketa uspešno odgovorjena!"
+        ]);
     }
 }

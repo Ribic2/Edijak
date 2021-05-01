@@ -35,15 +35,18 @@ class StudentController extends Controller
     public function getPollsAndEvents(): JsonResponse
     {
         (array)$availablePolls = [];
-        foreach (Poll::where(['groupId' => Auth::user()->groupId, 'isFinished' => 0])->with('options')->get() as $poll){
-            if(Answer::where(['pollId' => $poll->id, 'userId' => Auth::id()])->count() == 0){
-                array_push($availablePolls, $poll);
-            }
+        // Array loops through Polls that are assigned to users group, then it adds then to array with answer.
+        // If answer  was not provided, then answer is returned as null.
+        foreach (Poll::where(['groupId' => Auth::user()->groupId])->with('options')->get() as $poll) {
+            array_push($availablePolls, ["poll" => $poll, "answer" => Answer::where(
+                    ['userId' => Auth::user()->id, "pollId" => $poll->id])
+                    ->with('option')->first()
+                ]
+            );
         }
 
-
         return response()->json([
-            "polls"  => $availablePolls,#Poll::where('groupId', Auth::user()->groupId)->with(['options'])->get(),
+            "polls" => $availablePolls,
             "events" => Event::where('groupId', Auth::user()->groupId)->get()
         ]);
     }

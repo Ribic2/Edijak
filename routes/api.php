@@ -37,7 +37,7 @@ Route::middleware(['auth:api'])->group(function () {
         Route::post('/teacher/poll', [PollController::class, 'createGroupPoll']);
         Route::get('/teacher/group/{id}', [TeacherController::class, 'getGroup']);
         Route::post('/teacher/groups/students', [TeacherController::class, 'getGroupStudents']);
-    #Route::post('/teacher/poll', [PollController::class, 'createPoll']);
+    	Route::post('/teacher/poll', [PollController::class, 'createPoll']);
     #});
 });
 

@@ -100,6 +100,8 @@ export default {
                     // Depending on the role of logged in user redirects happens
                     // If user if found to be a teacher, it is redirected to /teacher
                     // else it's redirected to /webapp
+
+                    console.log(response.data.teacher)
                     if (response.data.teacher) {
                         window.location.href = "/teacher"
                     } else {

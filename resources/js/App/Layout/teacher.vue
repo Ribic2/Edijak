@@ -8,14 +8,14 @@
         >
             <v-list>
                 <v-list-item>
-                   <router-link :to="{name: 'teacherHome'}" style="width: 100%">
-                       <v-btn block elevation="0" :ripple="false" color="info" rounded>Urnik</v-btn>
-                   </router-link>
+                    <router-link :to="{name: 'teacherHome'}" style="width: 100%">
+                        <v-btn block elevation="0" :ripple="false" color="info" rounded>Urnik</v-btn>
+                    </router-link>
                 </v-list-item>
                 <v-list-item>
-                   <router-link :to="{name: 'teacherLive'}" style="width: 100%">
-                       <v-btn block elevation="0" :ripple="false" color="info" rounded>V živo</v-btn>
-                   </router-link>
+                    <router-link :to="{name: 'teacherLive'}" style="width: 100%">
+                        <v-btn block elevation="0" :ripple="false" color="info" rounded>V živo</v-btn>
+                    </router-link>
                 </v-list-item>
                 <v-list-item>
                     <router-link :to="{name: 'groups'}" style="width: 100%">
@@ -41,7 +41,10 @@
                 :elevation="0"
                 @click="logout()"
                 rounded
-            ><v-icon>mdi-logout</v-icon>Odjavi se</v-btn>
+            >
+                <v-icon>mdi-logout</v-icon>
+                Odjavi se
+            </v-btn>
         </v-app-bar>
 
         <v-main>
@@ -52,6 +55,12 @@
                 <router-view></router-view>
             </transition>
         </v-main>
+
+        <!-- Spinner -->
+        <v-overlay v-if="$store.state.Event.spinner">
+            <v-progress-circular :size="100" indeterminate
+            ></v-progress-circular>
+        </v-overlay>
     </v-app>
 </template>
 
@@ -60,16 +69,16 @@ import moment from "moment";
 
 export default {
     name: "teacher",
-    data(){
-        return{
+    data() {
+        return {
             toggle: false
         }
     },
     mounted() {
         moment.updateLocale('sl', 'sl')
     },
-    methods:{
-        logout(){
+    methods: {
+        logout() {
             this.$store.commit('LOGOUT');
         }
     }
@@ -81,6 +90,7 @@ export default {
     opacity: 0;
     transform: translateX(2em);
 }
+
 .fade-enter-active, .fade-leave-active {
     transition: all .3s ease;
 }

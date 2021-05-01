@@ -22,6 +22,8 @@
 
                 <v-btn
                     block
+                    color="primary"
+                    rounded
                     @click="createPoll"
                 >Dodaj novo anketo</v-btn>
 
@@ -78,10 +80,24 @@ export default {
             this.poll.options.pop(e)
         },
         createPoll(){
+            this.$store.state.Event.spinner = true
             Teacher.createPoll(this.poll)
             .then((res)=>{
-                console.log(res)
+                this.$store.state.Event.spinner = false
+
+                // Response
+                this.$store.state.Event.response = true
+                this.$store.state.Event.responseColor = "green"
+                this.$store.state.Event.responseText = "Nova dogodek je bil dodan!"
+                this.$store.state.Event.responseIcon = 'mdi-check'
                 Object.assign(this.poll, this.defaultPoll)
+            })
+            .catch((err)=>{
+                this.$store.state.Event.response = true
+                this.$store.state.Event.spinner = false
+                this.$store.state.Event.responseColor = "red"
+                this.$store.state.Event.responseText = "Napaka pri dodajanju novega dogodka!"
+                this.$store.state.Event.responseIcon = 'mdi-emoticon-sad-outline'
             })
         }
     }
