@@ -14,7 +14,7 @@ const router = new VueRouter({
             beforeEnter: (to, from, next)=>{
                 Student.getStudent()
                     .then((res)=>{
-                        if(res.data.role){
+                        if(!res.data.role){
                             next()
                         }
                         else{
