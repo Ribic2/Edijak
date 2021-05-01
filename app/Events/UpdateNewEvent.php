@@ -30,6 +30,16 @@ class UpdateNewEvent implements ShouldBroadcast
             'response' => "Nov dogodek je bi dodan!"
         ];
     }
+    
+    /**
+    * The event's broadcast name.
+    *
+    * @return string
+    */
+     public function broadcastAs()
+     {
+       return 'UpdateNewEvent';
+     }
 
     /**
      * Get the channels the event should broadcast on.

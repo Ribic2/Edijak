@@ -72,9 +72,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+<<<<<<< HEAD
 //
 //
 //
+=======
+>>>>>>> 7d518cb2abfb820aa6b8778ece27640a1331a066
 
 
 var User = _Services_Api_Factory__WEBPACK_IMPORTED_MODULE_0__["Factory"].get('User');
@@ -94,11 +97,14 @@ var User = _Services_Api_Factory__WEBPACK_IMPORTED_MODULE_0__["Factory"].get('Us
       }]
     };
   },
+<<<<<<< HEAD
   methods: {
     logout: function logout() {
       this.$store.commit('LOGOUT');
     }
   },
+=======
+>>>>>>> 7d518cb2abfb820aa6b8778ece27640a1331a066
   mounted: function mounted() {
     var _this = this;
 
@@ -120,6 +126,7 @@ var User = _Services_Api_Factory__WEBPACK_IMPORTED_MODULE_0__["Factory"].get('Us
       return state.User.user;
     }
   })
+<<<<<<< HEAD
 });
 
 /***/ }),
@@ -232,6 +239,192 @@ __webpack_require__.r(__webpack_exports__);
       return this.$store.state.Schedule.selectedSchedule;
     }
   }
+=======
+>>>>>>> 7d518cb2abfb820aa6b8778ece27640a1331a066
+});
+
+/***/ }),
+
+<<<<<<< HEAD
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vuetify-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/App/Pages/Student/Schedule/index.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vuetify-loader/lib/loader.js??ref--11-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/App/Pages/Student/Schedule/index.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************************************************************/
+=======
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vuetify-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/App/Pages/Student/Schedule/Schedule.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vuetify-loader/lib/loader.js??ref--11-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/App/Pages/Student/Schedule/Schedule.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************************************************************************/
+>>>>>>> 7d518cb2abfb820aa6b8778ece27640a1331a066
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+<<<<<<< HEAD
+/* harmony import */ var _hourInfo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./hourInfo */ "./resources/js/App/Pages/Student/Schedule/hourInfo.vue");
+/* harmony import */ var _Schedule__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Schedule */ "./resources/js/App/Pages/Student/Schedule/Schedule.vue");
+=======
+/* harmony import */ var _Services_Api_Factory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../Services/Api/Factory */ "./resources/js/Services/Api/Factory.js");
+/* harmony import */ var _scheduleRow__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./scheduleRow */ "./resources/js/App/Pages/Student/Schedule/scheduleRow.vue");
+/* harmony import */ var _Layout_student__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../Layout/student */ "./resources/js/App/Layout/student.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+>>>>>>> 7d518cb2abfb820aa6b8778ece27640a1331a066
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+var Student = _Services_Api_Factory__WEBPACK_IMPORTED_MODULE_0__["Factory"].get('Student');
+/* harmony default export */ __webpack_exports__["default"] = ({
+<<<<<<< HEAD
+  name: "View.vue",
+  components: {
+    Schedule: _Schedule__WEBPACK_IMPORTED_MODULE_1__["default"],
+    hourInfo: _hourInfo__WEBPACK_IMPORTED_MODULE_0__["default"]
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vuetify-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/App/Pages/Student/Schedule/scheduleRow.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vuetify-loader/lib/loader.js??ref--11-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/App/Pages/Student/Schedule/scheduleRow.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "scheduleRow",
+  props: ["part"],
+  data: function data() {
+    return {
+      from: this.part.hour.from,
+      to: this.part.hour.to,
+      date: moment__WEBPACK_IMPORTED_MODULE_0___default()()
+    };
+  },
+  methods: {
+=======
+  name: "Schedule.vue",
+  components: {
+    scheduleRow: _scheduleRow__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  data: function data() {
+    return {
+      selectedSchedule: null
+    };
+  },
+  methods: {
+    getSchedules: function getSchedules() {
+      var _this = this;
+
+      Student.getSchedule(1).then(function (response) {
+        _this.$store.state.Schedule.schedule = response.data.Schedule;
+      });
+    },
+    selectSchedule: function selectSchedule(part) {
+      this.$store.state.Schedule.selectedSchedule = part;
+    }
+  },
+  computed: {
+    schedule: function schedule() {
+      return this.$store.state.Schedule.schedule;
+    }
+  },
+  mounted: function mounted() {
+    this.getSchedules();
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vuetify-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/App/Pages/Student/Schedule/hourInfo.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vuetify-loader/lib/loader.js??ref--11-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/App/Pages/Student/Schedule/hourInfo.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "hourInfo",
+  computed: {
+    selectedSchedule: function selectedSchedule() {
+      return this.$store.state.Schedule.selectedSchedule;
+    }
+  }
 });
 
 /***/ }),
@@ -247,10 +440,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _hourInfo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./hourInfo */ "./resources/js/App/Pages/Student/Schedule/hourInfo.vue");
 /* harmony import */ var _Schedule__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Schedule */ "./resources/js/App/Pages/Student/Schedule/Schedule.vue");
-//
-//
-//
-//
 //
 //
 //
@@ -327,6 +516,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+>>>>>>> 7d518cb2abfb820aa6b8778ece27640a1331a066
     selectSchedule: function selectSchedule(part) {
       this.$store.state.Schedule.selectedSchedule = part;
     },
@@ -715,6 +905,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-list-item-group",
+<<<<<<< HEAD
                 [
                   _vm._l(_vm.routes, function(route, index) {
                     return _c(
@@ -735,6 +926,22 @@ var render = function() {
                   ])
                 ],
                 2
+=======
+                _vm._l(_vm.routes, function(route, index) {
+                  return _c(
+                    "v-list-item",
+                    { key: index, attrs: { to: { name: route.path } } },
+                    [
+                      _vm._v(
+                        "\n                   " +
+                          _vm._s(route.name) +
+                          "\n                "
+                      )
+                    ]
+                  )
+                }),
+                1
+>>>>>>> 7d518cb2abfb820aa6b8778ece27640a1331a066
               )
             ],
             1
@@ -745,7 +952,11 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-app-bar",
+<<<<<<< HEAD
         { attrs: { dark: "", app: "", color: "primary" } },
+=======
+        { attrs: { dark: "", app: "", color: "#0446ff" } },
+>>>>>>> 7d518cb2abfb820aa6b8778ece27640a1331a066
         [
           _c("v-app-bar-nav-icon", {
             on: {
@@ -761,7 +972,11 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-chip",
+<<<<<<< HEAD
             { attrs: { color: "secondary" } },
+=======
+            { attrs: { color: "#6f63ff" } },
+>>>>>>> 7d518cb2abfb820aa6b8778ece27640a1331a066
             [
               _c("v-icon", [
                 _vm._v("\n                mdi-account\n            ")
@@ -953,9 +1168,12 @@ var render = function() {
     "v-container",
     { attrs: { fluid: "" } },
     [
+      _c("v-row", [_c("v-col", [_c("schedule")], 1)], 1),
+      _vm._v(" "),
       _c(
         "v-row",
         [
+<<<<<<< HEAD
           _c(
             "v-col",
             [_c("v-card", [_c("v-card-title", [_vm._v("Urnik")])], 1)],
@@ -968,6 +1186,14 @@ var render = function() {
       _c("v-row", [_c("v-col", [_c("schedule")], 1)], 1),
       _vm._v(" "),
       _c("v-row", [_c("v-col", [_c("hour-info")], 1)], 1)
+=======
+          _c("v-col", [_c("hour-info")], 1),
+          _vm._v(" "),
+          _c("v-col", [_c("v-card", [_vm._v("test")])], 1)
+        ],
+        1
+      )
+>>>>>>> 7d518cb2abfb820aa6b8778ece27640a1331a066
     ],
     1
   )
