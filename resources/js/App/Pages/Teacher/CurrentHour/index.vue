@@ -15,16 +15,17 @@
                     <v-card
                         v-for="(student, index) in students"
                         :key="index"
+                        :color="student.waker != null && student.waker.nonResponsive === 1? 'grey': 'white'"
                         class="ma-2"
                     >
                         <v-card-actions>
                             <v-card-text class="text-xl-body-1">{{ student.name }} {{ student.surname }}</v-card-text>
                             <v-spacer></v-spacer>
-                            <v-btn icon color="red">
-                                <v-icon>mdi-block-helper</v-icon>
-                            </v-btn>
-
-                            <v-btn icon color="green">
+                            <v-btn
+                                :disabled="student.waker != null && student.waker.nonResponsive === 1"
+                                icon color="green"
+                                @click="wakeCall(student.id)"
+                            >
                                 <v-icon>mdi-phone</v-icon>
                             </v-btn>
                         </v-card-actions>
@@ -68,9 +69,18 @@ export default {
             date: moment(),
             currentHour: null,
             group: null,
+            currentGroup: null,
             isBreak: false,
             breakCounter: 0,
             students: [],
+        }
+    },
+    methods: {
+        wakeCall(id) {
+            Teacher.wakeCall({"userId": id, "currentHour": this.currentHour})
+                .then((res) => {
+                    this.students = res.data
+                })
         }
     },
     computed: {
@@ -92,7 +102,7 @@ export default {
         },
     },
     created() {
-        setInterval(()=>{
+        setInterval(() => {
             let format = 'hh:mm'
             this.date = moment()
             this.breakCounter = 0
@@ -106,13 +116,12 @@ export default {
                             })
                     }
                     return e
-                }
-                else{
+                } else {
                     this.breakCounter++
                 }
             })
 
-            if(this.schedules.length === this.breakCounter){
+            if (this.schedules.length === this.breakCounter) {
                 this.students = []
                 this.currentHour = null
                 this.breakCounter = 0

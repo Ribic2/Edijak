@@ -26,7 +26,7 @@
         </v-card-text>
 
         <v-card-text v-if="response">
-            <v-chip :color="this.responseColor" large>{{ responseText }}</v-chip>
+            <v-chip :color="responseColor" text-color="white" large>{{ responseText }}</v-chip>
         </v-card-text>
     </v-card>
 </template>

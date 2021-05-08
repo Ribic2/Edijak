@@ -70,4 +70,8 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    public function waker(){
+        return $this->hasOne(Waker::class, 'userId', 'id');
+    }
+
 }

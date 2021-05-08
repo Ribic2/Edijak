@@ -37,7 +37,7 @@ class StudentController extends Controller
         (array)$availablePolls = [];
         // Array loops through Polls that are assigned to users group, then it adds then to array with answer.
         // If answer  was not provided, then answer is returned as null.
-        foreach (Poll::where(['groupId' => Auth::user()->groupId])->with('options')->get() as $poll) {
+        foreach (Poll::where(['groupId' => Auth::user()->groupId])->with('options')->orderByDesc('created_at')->get() as $poll) {
             array_push($availablePolls, ["poll" => $poll, "answer" => Answer::where(
                     ['userId' => Auth::user()->id, "pollId" => $poll->id])
                     ->with('option')->first()
@@ -47,7 +47,7 @@ class StudentController extends Controller
 
         return response()->json([
             "polls" => $availablePolls,
-            "events" => Event::where('groupId', Auth::user()->groupId)->get()
+            "events" => Event::where('groupId', Auth::user()->groupId)->orderByDesc('created_at')->get()
         ]);
     }
 }

@@ -98,12 +98,15 @@ export default {
                 this.newEventResponse = e.response
                 this.triggerSnackbar = true
             })
+
+        Echo.channel(`edijak.77`)
+        .listen('WakerEvent', (e)=>{
+            console.log(e)
+        })
+
     },
     beforeMount() {
-        User.getUser()
-        .then((res)=>{
-            this.$store.dispatch('setUser', res.data)
-        })
+        this.$store.dispatch('setUser')
     },
     computed:mapState({
         user: state => state.User.user

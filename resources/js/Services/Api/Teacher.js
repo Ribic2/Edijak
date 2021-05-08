@@ -25,5 +25,8 @@ export default {
     },
     getGroup(id){
         return api.get(`${prefix}/group/${id}`)
+    },
+    wakeCall(data){
+      return api.post(`${prefix}/wake`, data)
     }
 }

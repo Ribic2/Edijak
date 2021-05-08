@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Group;
 use App\Models\Hour;
 use App\Models\User;
+use App\Models\Waker;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +35,7 @@ class TeacherController extends Controller
         $className = $request->input('className');
         $group = Group::where('groupName', $className)->first();
         return response()->json(
-            User::where('groupId', $group->id)->get()
+            User::where('groupId', $group->id)->with('waker')->get()
         );
     }
     /**

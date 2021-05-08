@@ -8,13 +8,13 @@
             </v-col>
         </v-row>
         <v-row v-for="(schedule, index) in schedules" :key="index" no-gutters>
-            <v-col cols="2">
+            <v-col cols="6" xl="4" lg="3">
                 <v-card height="80" outlined class="rounded-0">
                     <p>{{ schedule.id }}</p>
                     <p>{{ schedule.from}} - {{ schedule.to }}</p>
                 </v-card>
             </v-col>
-            <v-col cols="10">
+            <v-col cols="6" xl="8" lg="9">
                 <v-card
                     v-if="schedule.schedules"
                     height="80" outlined class="rounded-0"

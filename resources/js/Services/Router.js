@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from "vue-router";
 import {Factory} from "../Services/Api/Factory"
+
 const Student = Factory.get('Student')
 const Teacher = Factory.get('Teacher')
 
@@ -11,17 +12,16 @@ const router = new VueRouter({
     routes: [
         // Student layout
         {
-            beforeEnter: (to, from, next)=>{
+            beforeEnter: (to, from, next) => {
                 Student.getStudent()
-                    .then((res)=>{
-                        if(!res.data.role){
+                    .then((res) => {
+                        if (!res.data.role) {
                             next()
-                        }
-                        else{
+                        } else {
                             next(false)
                         }
                     })
-                    .catch((err)=>{
+                    .catch((err) => {
                         next({name: 'login'})
                     })
             },
@@ -46,17 +46,16 @@ const router = new VueRouter({
             name: 'teacher',
             path: '/teacher',
             component: () => import('../App/Layout/teacher'),
-            beforeEnter: (to, from, next)=>{
+            beforeEnter: (to, from, next) => {
                 Teacher.getTeacher()
-                    .then((res)=>{
-                        if(res.data.role){
+                    .then((res) => {
+                        if (res.data.role) {
                             next()
-                        }
-                        else{
+                        } else {
                             next(false)
                         }
                     })
-                    .catch((err)=>{
+                    .catch((err) => {
                         next({name: 'login'})
                     })
             },
@@ -79,7 +78,7 @@ const router = new VueRouter({
                 {
                     path: 'group/:id',
                     name: 'group',
-                    component: ()=>import('../App/Pages/Teacher/Groups/group')
+                    component: () => import('../App/Pages/Teacher/Groups/group')
                 }
             ]
         },
@@ -92,5 +91,15 @@ const router = new VueRouter({
         }
     ]
 });
+
+
+// Checks if user is logged in before entering path
+router.beforeEach((to, from, next) => {
+    if (to.path !== '/' && localStorage.getItem('token') == null) {
+        next({path: '/'})
+    } else {
+        next()
+    }
+})
 
 export default router

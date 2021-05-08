@@ -7,7 +7,4 @@ export default {
             state.selectedGroup = payload
         }
     },
-    actions:{
-
-    }
 }

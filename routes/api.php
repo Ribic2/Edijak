@@ -5,6 +5,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\PollController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\WakerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +38,7 @@ Route::middleware(['auth:api'])->group(function () {
         Route::post('/teacher/poll', [PollController::class, 'createGroupPoll']);
         Route::get('/teacher/group/{id}', [TeacherController::class, 'getGroup']);
         Route::post('/teacher/groups/students', [TeacherController::class, 'getGroupStudents']);
-    	Route::post('/teacher/poll', [PollController::class, 'createPoll']);
+    	Route::post('/teacher/wake', [WakerController::class, 'sendWakerCall']);
     #});
 });
 

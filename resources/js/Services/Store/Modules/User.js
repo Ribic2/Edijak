@@ -1,3 +1,7 @@
+import { Factory } from "../../Api/Factory"
+import Axios from 'axios'
+const User = Factory.get('User')
+
 export default {
     state:{
         user: []
@@ -14,8 +18,19 @@ export default {
         }
     },
     actions:{
-        setUser({commit}, data){
-            commit('SET_USER', data)
+        setUser({commit}){
+            Axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+            if(localStorage.getItem('token') != null){
+                User.getUser()
+                    .then((res)=>{
+                        if(!res.data.user){
+                            localStorage.clear();
+                            window.location.href = "/"
+                        } else {
+                            commit('SET_USER', res.data.user)
+                        }
+                    })
+            }
         },
     }
 }

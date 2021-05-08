@@ -129,7 +129,7 @@ var render = function() {
         _vm._l(_vm.groups, function(group, index) {
           return _c(
             "v-col",
-            { key: index, attrs: { cols: "3" } },
+            { key: index, attrs: { cols: "12", lg: "3", md: "4", xl: "3" } },
             [
               _c(
                 "v-card",
