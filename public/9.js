@@ -455,7 +455,7 @@ var render = function() {
           [
             _c(
               "v-col",
-              { attrs: { cols: "2" } },
+              { attrs: { cols: "6", xl: "4", lg: "3" } },
               [
                 _c(
                   "v-card",
@@ -479,7 +479,7 @@ var render = function() {
             _vm._v(" "),
             _c(
               "v-col",
-              { attrs: { cols: "10" } },
+              { attrs: { cols: "6", xl: "8", lg: "9" } },
               [
                 schedule.schedules
                   ? _c(

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -14,3 +15,7 @@ use Illuminate\Support\Facades\Broadcast;
 */
 
 Broadcast::channel('edijak', \App\Broadcasting\Edijak::class);
+
+Broadcast::channel('edijak.77', function($user){
+    return true;
+});

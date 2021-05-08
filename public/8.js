@@ -76,6 +76,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 var Teacher = _Services_Api_Factory__WEBPACK_IMPORTED_MODULE_1__["Factory"].get('Teacher');
 
@@ -87,23 +88,36 @@ var Teacher = _Services_Api_Factory__WEBPACK_IMPORTED_MODULE_1__["Factory"].get(
       date: moment__WEBPACK_IMPORTED_MODULE_2___default()(),
       currentHour: null,
       group: null,
+      currentGroup: null,
       isBreak: false,
       breakCounter: 0,
       students: []
     };
   },
+  methods: {
+    wakeCall: function wakeCall(id) {
+      var _this = this;
+
+      Teacher.wakeCall({
+        "userId": id,
+        "currentHour": this.currentHour
+      }).then(function (res) {
+        _this.students = res.data;
+      });
+    }
+  },
   computed: {
     checkHour: function checkHour() {
-      var _this = this;
+      var _this2 = this;
 
       var format = 'hh:mm';
       this.schedules.forEach(function (e) {
-        if (_this.date.isBetween(moment__WEBPACK_IMPORTED_MODULE_2___default()(e.from, format), moment__WEBPACK_IMPORTED_MODULE_2___default()(e.to, format))) {
+        if (_this2.date.isBetween(moment__WEBPACK_IMPORTED_MODULE_2___default()(e.from, format), moment__WEBPACK_IMPORTED_MODULE_2___default()(e.to, format))) {
           // Checks if current hour has changed
-          if (_this.currentHour !== e.schedules.hour) {
-            _this.currentHour = e.schedules.hour;
+          if (_this2.currentHour !== e.schedules.hour) {
+            _this2.currentHour = e.schedules.hour;
             Teacher.getGroupStudents(e.schedules["class"]).then(function (res) {
-              _this.students = res.data;
+              _this2.students = res.data;
             });
           }
 
@@ -113,38 +127,38 @@ var Teacher = _Services_Api_Factory__WEBPACK_IMPORTED_MODULE_1__["Factory"].get(
     }
   },
   created: function created() {
-    var _this2 = this;
+    var _this3 = this;
 
     setInterval(function () {
       var format = 'hh:mm';
-      _this2.date = moment__WEBPACK_IMPORTED_MODULE_2___default()();
-      _this2.breakCounter = 0;
+      _this3.date = moment__WEBPACK_IMPORTED_MODULE_2___default()();
+      _this3.breakCounter = 0;
 
-      _this2.schedules.forEach(function (e) {
-        if (_this2.date.isBetween(moment__WEBPACK_IMPORTED_MODULE_2___default()(e.from, format), moment__WEBPACK_IMPORTED_MODULE_2___default()(e.to, format))) {
-          if (_this2.currentHour !== e.schedules.hour) {
-            _this2.currentHour = e.schedules.hour;
+      _this3.schedules.forEach(function (e) {
+        if (_this3.date.isBetween(moment__WEBPACK_IMPORTED_MODULE_2___default()(e.from, format), moment__WEBPACK_IMPORTED_MODULE_2___default()(e.to, format))) {
+          if (_this3.currentHour !== e.schedules.hour) {
+            _this3.currentHour = e.schedules.hour;
             Teacher.getGroupStudents(e.schedules["class"]).then(function (res) {
-              _this2.students = res.data;
+              _this3.students = res.data;
             });
           }
 
           return e;
         } else {
-          _this2.breakCounter++;
+          _this3.breakCounter++;
         }
       });
 
-      if (_this2.schedules.length === _this2.breakCounter) {
-        _this2.students = [];
-        _this2.currentHour = null;
-        _this2.breakCounter = 0;
+      if (_this3.schedules.length === _this3.breakCounter) {
+        _this3.students = [];
+        _this3.currentHour = null;
+        _this3.breakCounter = 0;
       }
     }, 1000);
   },
   // Set schedules
   mounted: function mounted() {
-    var _this3 = this;
+    var _this4 = this;
 
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
@@ -154,7 +168,7 @@ var Teacher = _Services_Api_Factory__WEBPACK_IMPORTED_MODULE_1__["Factory"].get(
               _context.prev = 0;
               _context.next = 3;
               return Teacher.getSchedule().then(function (response) {
-                _this3.schedules = response.data;
+                _this4.schedules = response.data;
               });
 
             case 3:
@@ -543,7 +557,17 @@ var render = function() {
                       _vm._l(_vm.students, function(student, index) {
                         return _c(
                           "v-card",
-                          { key: index, staticClass: "ma-2" },
+                          {
+                            key: index,
+                            staticClass: "ma-2",
+                            attrs: {
+                              color:
+                                student.waker != null &&
+                                student.waker.nonResponsive === 1
+                                  ? "grey"
+                                  : "white"
+                            }
+                          },
                           [
                             _c(
                               "v-card-actions",
@@ -564,14 +588,20 @@ var render = function() {
                                 _vm._v(" "),
                                 _c(
                                   "v-btn",
-                                  { attrs: { icon: "", color: "red" } },
-                                  [_c("v-icon", [_vm._v("mdi-block-helper")])],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-btn",
-                                  { attrs: { icon: "", color: "green" } },
+                                  {
+                                    attrs: {
+                                      disabled:
+                                        student.waker != null &&
+                                        student.waker.nonResponsive === 1,
+                                      icon: "",
+                                      color: "green"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.wakeCall(student.id)
+                                      }
+                                    }
+                                  },
                                   [_c("v-icon", [_vm._v("mdi-phone")])],
                                   1
                                 )

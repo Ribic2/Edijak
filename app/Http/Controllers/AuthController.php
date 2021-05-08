@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\UpdateNotificationText;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
@@ -40,9 +40,10 @@ class AuthController extends Controller
      */
     public function getUser(): JsonResponse
     {
-        return response()->json(
-          Auth::user()
-        );
+        return response()->json([
+            "role" => Auth::user()->hasAllRoles(Role::all()),
+            "user" => Auth::user(),
+        ]);
     }
 
     /**

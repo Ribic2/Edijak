@@ -66,6 +66,8 @@
 
 <script>
 import moment from "moment";
+import {Factory} from "../../Services/Api/Factory"
+const User = Factory.get('User')
 
 export default {
     name: "teacher",
@@ -73,6 +75,9 @@ export default {
         return {
             toggle: false
         }
+    },
+    beforeMount() {
+        this.$store.dispatch('setUser')
     },
     mounted() {
         moment.updateLocale('sl', 'sl')

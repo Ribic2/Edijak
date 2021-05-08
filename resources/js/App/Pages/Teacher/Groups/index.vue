@@ -8,7 +8,7 @@
             </v-col>
         </v-row>
         <v-row>
-            <v-col cols="3" v-for="(group, index) in groups" :key="index">
+            <v-col cols="12" lg="3" md="4" xl="3" v-for="(group, index) in groups" :key="index">
                     <v-card height="400px">
                         <v-responsive :aspect-ratio="1" @click="selectGroup(group)">
                             <v-card-title>{{ group.groupName }}</v-card-title>

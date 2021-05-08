@@ -11,6 +11,7 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Services_Api_Factory__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Services/Api/Factory */ "./resources/js/Services/Api/Factory.js");
 //
 //
 //
@@ -54,7 +55,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-<<<<<<< HEAD
 //
 //
 //
@@ -64,8 +64,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-=======
->>>>>>> 7d518cb2abfb820aa6b8778ece27640a1331a066
 //
 //
 //
@@ -81,12 +79,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
+var User = _Services_Api_Factory__WEBPACK_IMPORTED_MODULE_1__["Factory"].get('User');
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "teacher",
   data: function data() {
     return {
       toggle: false
     };
+  },
+  beforeMount: function beforeMount() {
+    this.$store.dispatch('setUser');
   },
   mounted: function mounted() {
     moment__WEBPACK_IMPORTED_MODULE_0___default.a.updateLocale('sl', 'sl');
@@ -487,8 +490,6 @@ var render = function() {
             [
               _c(
                 "v-list-item",
-<<<<<<< HEAD
-=======
                 [
                   _c(
                     "router-link",
@@ -549,75 +550,11 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-list-item",
->>>>>>> 7d518cb2abfb820aa6b8778ece27640a1331a066
                 [
                   _c(
                     "router-link",
                     {
                       staticStyle: { width: "100%" },
-<<<<<<< HEAD
-                      attrs: { to: { name: "teacherHome" } }
-                    },
-                    [
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: {
-                            block: "",
-                            elevation: "0",
-                            ripple: false,
-                            color: "info",
-                            rounded: ""
-                          }
-                        },
-                        [_vm._v("Urnik")]
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-list-item",
-                [
-                  _c(
-                    "router-link",
-                    {
-                      staticStyle: { width: "100%" },
-                      attrs: { to: { name: "teacherLive" } }
-                    },
-                    [
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: {
-                            block: "",
-                            elevation: "0",
-                            ripple: false,
-                            color: "info",
-                            rounded: ""
-                          }
-                        },
-                        [_vm._v("V živo")]
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-list-item",
-                [
-                  _c(
-                    "router-link",
-                    {
-                      staticStyle: { width: "100%" },
-=======
->>>>>>> 7d518cb2abfb820aa6b8778ece27640a1331a066
                       attrs: { to: { name: "groups" } }
                     },
                     [
@@ -644,60 +581,6 @@ var render = function() {
             1
           )
         ],
-<<<<<<< HEAD
-=======
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-app-bar",
-        { attrs: { app: "", dark: "", color: "secondary" } },
-        [
-          _c("v-app-bar-nav-icon", {
-            on: {
-              click: function($event) {
-                _vm.toggle = !_vm.toggle
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("v-toolbar-title", [_vm._v("Eteacher")]),
-          _vm._v(" "),
-          _c("v-spacer"),
-          _vm._v(" "),
-          _c(
-            "v-btn",
-            {
-              attrs: {
-                color: "secondary",
-                ripple: false,
-                elevation: 0,
-                rounded: ""
-              },
-              on: {
-                click: function($event) {
-                  return _vm.logout()
-                }
-              }
-            },
-            [_c("v-icon", [_vm._v("mdi-logout")]), _vm._v("Odjavi se")],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-main",
-        [
-          _c(
-            "transition",
-            { attrs: { name: "fade", mode: "out-in" } },
-            [_c("router-view")],
-            1
-          )
-        ],
->>>>>>> 7d518cb2abfb820aa6b8778ece27640a1331a066
         1
       ),
       _vm._v(" "),
@@ -799,15 +682,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/index.js");
 /* harmony import */ var vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VMain */ "./node_modules/vuetify/lib/components/VMain/index.js");
 /* harmony import */ var vuetify_lib_components_VNavigationDrawer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VNavigationDrawer */ "./node_modules/vuetify/lib/components/VNavigationDrawer/index.js");
-<<<<<<< HEAD
 /* harmony import */ var vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VOverlay */ "./node_modules/vuetify/lib/components/VOverlay/index.js");
 /* harmony import */ var vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VProgressCircular */ "./node_modules/vuetify/lib/components/VProgressCircular/index.js");
 /* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/index.js");
 /* harmony import */ var vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VToolbar */ "./node_modules/vuetify/lib/components/VToolbar/index.js");
-=======
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/index.js");
-/* harmony import */ var vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VToolbar */ "./node_modules/vuetify/lib/components/VToolbar/index.js");
->>>>>>> 7d518cb2abfb820aa6b8778ece27640a1331a066
 
 
 
@@ -834,22 +712,15 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 7d518cb2abfb820aa6b8778ece27640a1331a066
 
 
 
 
 
 
-<<<<<<< HEAD
+
+
 _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VApp: vuetify_lib_components_VApp__WEBPACK_IMPORTED_MODULE_5__["VApp"],VAppBar: vuetify_lib_components_VAppBar__WEBPACK_IMPORTED_MODULE_6__["VAppBar"],VAppBarNavIcon: vuetify_lib_components_VAppBar__WEBPACK_IMPORTED_MODULE_6__["VAppBarNavIcon"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_7__["VBtn"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_8__["VIcon"],VList: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VList"],VListItem: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VListItem"],VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_10__["VMain"],VNavigationDrawer: vuetify_lib_components_VNavigationDrawer__WEBPACK_IMPORTED_MODULE_11__["VNavigationDrawer"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_12__["VOverlay"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_13__["VProgressCircular"],VSpacer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_14__["VSpacer"],VToolbarTitle: vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_15__["VToolbarTitle"]})
-=======
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VApp: vuetify_lib_components_VApp__WEBPACK_IMPORTED_MODULE_5__["VApp"],VAppBar: vuetify_lib_components_VAppBar__WEBPACK_IMPORTED_MODULE_6__["VAppBar"],VAppBarNavIcon: vuetify_lib_components_VAppBar__WEBPACK_IMPORTED_MODULE_6__["VAppBarNavIcon"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_7__["VBtn"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_8__["VIcon"],VList: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VList"],VListItem: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VListItem"],VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_10__["VMain"],VNavigationDrawer: vuetify_lib_components_VNavigationDrawer__WEBPACK_IMPORTED_MODULE_11__["VNavigationDrawer"],VSpacer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_12__["VSpacer"],VToolbarTitle: vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_13__["VToolbarTitle"]})
->>>>>>> 7d518cb2abfb820aa6b8778ece27640a1331a066
 
 
 /* hot reload */

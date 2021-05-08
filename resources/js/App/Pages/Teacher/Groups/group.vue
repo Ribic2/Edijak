@@ -9,13 +9,13 @@
         <v-divider></v-divider>
         <v-card-text>
             <v-row>
-                <v-col cols="5">
+                <v-col cols="12" xl="5" lg="6">
                     <v-card-text>
                         <new-vote-event :groupId="group.id" v-if="select === 'vote'"/>
                         <add-new-event :groupId="group.id" v-else/>
                     </v-card-text>
                 </v-col>
-                <v-col cols="7">
+                <v-col cols="12" xl="6" lg="6">
                     <v-card-text>
                         <v-sheet>
                             <v-toolbar>
@@ -40,7 +40,6 @@
                                 ref="calendar"
                                 v-model="focus"
                                 color="primary"
-                                @click:day="selectDate"
                                 :type="type"
                             ></v-calendar>
                         </v-sheet>
@@ -73,16 +72,11 @@ export default {
         return {
             select: '',
             toggle: true,
-            focus: '',
             type: 'month',
             selectEventDate: null,
         }
     },
     methods: {
-        selectDate({date}) {
-            this.$store.commit('SET_EVENT_DATE', date)
-        },
-
         // Shows next month
         next() {
             this.$refs.calendar.next()
@@ -92,8 +86,18 @@ export default {
             this.$refs.calendar.prev()
         },
     },
-    computed: mapState({
-        group: state => state.Group.selectedGroup
-    })
+    computed: {
+        focus:{
+            get(){
+                return this.$store.state.Event.selectEventDate
+            },
+            set(value){
+                this.$store.commit('SET_EVENT_DATE', value)
+            }
+        },
+        group(){
+            return this.$store.state.Group.selectedGroup
+        }
+    }
 }
 </script>
