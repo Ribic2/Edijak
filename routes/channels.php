@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -16,6 +17,10 @@ use Illuminate\Support\Facades\Broadcast;
 
 Broadcast::channel('edijak', \App\Broadcasting\Edijak::class);
 
-Broadcast::channel('edijak.77', function($user){
-    return true;
+Broadcast::channel('edijak.{userId}', function ($user, $userId) {
+    return $user->id == $userId;
+});
+
+Broadcast::channel('group.{groupId}', function ($user, $groupId) {
+    return $user->id == User::where(['groupId', $groupId])->first()->id;
 });

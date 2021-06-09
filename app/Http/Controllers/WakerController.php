@@ -61,7 +61,7 @@ class WakerController extends Controller
 
         $user = User::where('id', $request->input('userId'))->first();
 
-        event(new WakerEvent(77));
+        event(new WakerEvent($user->id));
 
         return response()->json(
             User::where('groupId', $user->groupId)->with('waker')->get()
