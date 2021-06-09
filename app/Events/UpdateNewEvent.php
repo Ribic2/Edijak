@@ -27,10 +27,10 @@ class UpdateNewEvent implements ShouldBroadcast
     public function broadcastWith(): array
     {
         return [
-            'response' => "Nov dogodek je bi dodan!"
+            "Nov dogodek je bi dodan!"
         ];
     }
-    
+
     /**
     * The event's broadcast name.
     *

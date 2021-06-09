@@ -35,7 +35,7 @@ class GroupPauseReminder implements ShouldBroadcast
 
         if($nextSchedule === null){
             return [
-               "response" => "Konec pouka"
+              "Konec pouka"
             ];
         }
         return [
