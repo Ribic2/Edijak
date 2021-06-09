@@ -18,10 +18,10 @@ export default {
         }
     },
     actions:{
-        setUser({commit}){
+        async setUser({commit}){
             Axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
             if(localStorage.getItem('token') != null){
-                User.getUser()
+                await User.getUser()
                     .then((res)=>{
                         if(!res.data.user){
                             localStorage.clear();

@@ -20,7 +20,7 @@
 
                 <v-list-item-group>
                     <v-list-item v-for="(route, index) in routes" :key="index" :to="{name: route.path}">
-                       {{ route.name }}
+                        {{ route.name }}
                     </v-list-item>
 
                     <v-list-item @click="logout">
@@ -49,8 +49,10 @@
             </v-chip>
         </v-app-bar>
         <v-main>
+            {{ newEventResponse }}
             <router-view></router-view>
         </v-main>
+
 
         <!-- Snackbars that displays information -->
         <v-snackbar
@@ -64,7 +66,8 @@
 
 <script>
 import {Factory} from "../../Services/Api/Factory"
-import { mapState } from 'vuex'
+import {mapState} from 'vuex'
+
 const User = Factory.get('User')
 
 export default {
@@ -86,29 +89,29 @@ export default {
             ]
         }
     },
-    methods:{
-        logout(){
+    methods: {
+        logout() {
             this.$store.commit('LOGOUT');
         }
     },
-    mounted() {
-        // Listens for broadcast
-        Echo
-            .listen('edijak', 'UpdateNewEvent', (e)=>{
+    async mounted() {
+        await this.$store.dispatch('setUser').then(()=>{
+            // Listens for broadcast
+            Echo.listen('edijak', '.UpdateNewEvent', e => {
                 this.newEventResponse = e.response
                 this.triggerSnackbar = true
             })
 
-        Echo.channel(`edijak.77`)
-        .listen('WakerEvent', (e)=>{
-            console.log(e)
-        })
+            Echo.listen(`edijak.${this.user.id}`, '.WakerEvent', (e) => {
+                console.log(e)
+            })
 
+            Echo.listen(`group.${this.user.groupId}`, '.GroupPauseReminder', (e) => {
+                console.log(e)
+            })
+        })
     },
-    beforeMount() {
-        this.$store.dispatch('setUser')
-    },
-    computed:mapState({
+    computed: mapState({
         user: state => state.User.user
     })
 }

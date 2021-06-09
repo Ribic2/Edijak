@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\SendPauseResponse;
 use App\Models\Group;
 use Carbon\Carbon;
 use App\Models\Schedule as ScheduleModel;
@@ -28,6 +29,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+
+        $schedule->command('pause:remind')->everyMinute();
         $schedule->call(function () {
 
             if (ScheduleModel::whereDate('created_at', Carbon::today())->count() == 0) {
