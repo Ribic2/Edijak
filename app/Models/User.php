@@ -71,7 +71,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function waker(){
-        return $this->hasOne(Waker::class, 'userId', 'id');
+        return $this->hasMany(Waker::class, 'userId', 'id');
     }
 
 }

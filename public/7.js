@@ -107,17 +107,37 @@ var Teacher = _Services_Api_Factory__WEBPACK_IMPORTED_MODULE_1__["Factory"].get(
     }
   },
   computed: {
-    checkHour: function checkHour() {
+    checkWaker: function checkWaker() {
       var _this2 = this;
+
+      return function (student) {
+        var check = false;
+
+        if (student.waker.length === 0) {
+          return false;
+        }
+
+        for (var i = 0; i < student.waker.length; i++) {
+          if (student.waker[i].nonResponsive === 1 && student.waker[i].currentHour === _this2.currentHour) {
+            check = true;
+            break;
+          }
+        }
+
+        return check;
+      };
+    },
+    checkHour: function checkHour() {
+      var _this3 = this;
 
       var format = 'hh:mm';
       this.schedules.forEach(function (e) {
-        if (_this2.date.isBetween(moment__WEBPACK_IMPORTED_MODULE_2___default()(e.from, format), moment__WEBPACK_IMPORTED_MODULE_2___default()(e.to, format))) {
+        if (_this3.date.isBetween(moment__WEBPACK_IMPORTED_MODULE_2___default()(e.from, format), moment__WEBPACK_IMPORTED_MODULE_2___default()(e.to, format))) {
           // Checks if current hour has changed
-          if (_this2.currentHour !== e.schedules.hour) {
-            _this2.currentHour = e.schedules.hour;
+          if (_this3.currentHour !== e.schedules.hour) {
+            _this3.currentHour = e.schedules.hour;
             Teacher.getGroupStudents(e.schedules["class"]).then(function (res) {
-              _this2.students = res.data;
+              _this3.students = res.data;
             });
           }
 
@@ -127,38 +147,38 @@ var Teacher = _Services_Api_Factory__WEBPACK_IMPORTED_MODULE_1__["Factory"].get(
     }
   },
   created: function created() {
-    var _this3 = this;
+    var _this4 = this;
 
     setInterval(function () {
       var format = 'hh:mm';
-      _this3.date = moment__WEBPACK_IMPORTED_MODULE_2___default()();
-      _this3.breakCounter = 0;
+      _this4.date = moment__WEBPACK_IMPORTED_MODULE_2___default()();
+      _this4.breakCounter = 0;
 
-      _this3.schedules.forEach(function (e) {
-        if (_this3.date.isBetween(moment__WEBPACK_IMPORTED_MODULE_2___default()(e.from, format), moment__WEBPACK_IMPORTED_MODULE_2___default()(e.to, format))) {
-          if (_this3.currentHour !== e.schedules.hour) {
-            _this3.currentHour = e.schedules.hour;
+      _this4.schedules.forEach(function (e) {
+        if (_this4.date.isBetween(moment__WEBPACK_IMPORTED_MODULE_2___default()(e.from, format), moment__WEBPACK_IMPORTED_MODULE_2___default()(e.to, format))) {
+          if (_this4.currentHour !== e.schedules.hour) {
+            _this4.currentHour = e.schedules.hour;
             Teacher.getGroupStudents(e.schedules["class"]).then(function (res) {
-              _this3.students = res.data;
+              _this4.students = res.data;
             });
           }
 
           return e;
         } else {
-          _this3.breakCounter++;
+          _this4.breakCounter++;
         }
       });
 
-      if (_this3.schedules.length === _this3.breakCounter) {
-        _this3.students = [];
-        _this3.currentHour = null;
-        _this3.breakCounter = 0;
+      if (_this4.schedules.length === _this4.breakCounter) {
+        _this4.students = [];
+        _this4.currentHour = null;
+        _this4.breakCounter = 0;
       }
     }, 1000);
   },
   // Set schedules
   mounted: function mounted() {
-    var _this4 = this;
+    var _this5 = this;
 
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
@@ -168,7 +188,7 @@ var Teacher = _Services_Api_Factory__WEBPACK_IMPORTED_MODULE_1__["Factory"].get(
               _context.prev = 0;
               _context.next = 3;
               return Teacher.getSchedule().then(function (response) {
-                _this4.schedules = response.data;
+                _this5.schedules = response.data;
               });
 
             case 3:
@@ -561,11 +581,7 @@ var render = function() {
                             key: index,
                             staticClass: "ma-2",
                             attrs: {
-                              color:
-                                student.waker != null &&
-                                student.waker.nonResponsive === 1
-                                  ? "grey"
-                                  : "white"
+                              color: _vm.checkWaker(student) ? "grey" : "white"
                             }
                           },
                           [
@@ -590,9 +606,7 @@ var render = function() {
                                   "v-btn",
                                   {
                                     attrs: {
-                                      disabled:
-                                        student.waker != null &&
-                                        student.waker.nonResponsive === 1,
+                                      disabled: _vm.checkWaker(student),
                                       icon: "",
                                       color: "green"
                                     },

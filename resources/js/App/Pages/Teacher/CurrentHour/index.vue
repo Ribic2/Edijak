@@ -15,14 +15,14 @@
                     <v-card
                         v-for="(student, index) in students"
                         :key="index"
-                        :color="student.waker != null && student.waker.nonResponsive === 1? 'grey': 'white'"
+                        :color="checkWaker(student)? 'grey': 'white'"
                         class="ma-2"
                     >
                         <v-card-actions>
                             <v-card-text class="text-xl-body-1">{{ student.name }} {{ student.surname }}</v-card-text>
                             <v-spacer></v-spacer>
                             <v-btn
-                                :disabled="student.waker != null && student.waker.nonResponsive === 1"
+                                :disabled="checkWaker(student)"
                                 icon color="green"
                                 @click="wakeCall(student.id)"
                             >
@@ -84,6 +84,21 @@ export default {
         }
     },
     computed: {
+        checkWaker(){
+            return(student) =>{
+                let check = false;
+                if(student.waker.length === 0){
+                    return false;
+                }
+                for(let i = 0; i < student.waker.length; i++){
+                    if(student.waker[i].nonResponsive === 1 && student.waker[i].currentHour === this.currentHour){
+                        check = true
+                        break
+                    }
+                }
+                return check;
+            }
+        },
         checkHour() {
             let format = 'hh:mm'
             this.schedules.forEach((e) => {

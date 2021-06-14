@@ -21,7 +21,7 @@ class WakerController extends Controller
             [
                 'userId' => $request->input('userId'),
                 'teacherId' => Auth::id(),
-                'currentHour' => $request->input('currentHour')
+                'currentHour' => $request->input('currentHour'),
                 #'created_at' => Carbon::today()
             ]
         )->count();

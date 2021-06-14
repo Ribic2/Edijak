@@ -46,9 +46,9 @@ class TeacherController extends Controller
     public function getStudentsForSelectedHour(Request $request): JsonResponse
     {
         $group = Group::where('groupName', $request->input('groupName'))->first();
-        return response()->json(
-            User::where('groupId', $group->id)->get()
-        );
+        return response()->json([
+            User::where('groupId', $group->id)->with('waker')->get()
+        ]);
     }
 
     /**
