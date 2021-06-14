@@ -30,6 +30,13 @@ class WakerEvent implements ShouldBroadcast
         return 'WakerEvent';
     }
 
+    public function broadcastWith(): array
+    {
+        return [
+            "Neaktiven si pri pouku!"
+        ];
+    }
+
     /**
      * Get the channels the event should broadcast on.
      *
