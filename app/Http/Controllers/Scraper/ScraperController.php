@@ -193,7 +193,8 @@ class ScraperController extends Controller
                     "hour" => $j["hour"],
                     "type" => $j['type']
                 );
-                if($data["type"] != "dogodek"){
+                error_log(print_r($data));
+                if ($data["type"] != "dogodek") {
                     array_push($this->schedule, $data);
                 }
             } else {
@@ -204,7 +205,8 @@ class ScraperController extends Controller
                     "hour" => $j["hour"],
                     "type" => $j['type']
                 );
-                if($data["type"] != "dogodek"){
+                error_log(print_r($data));
+                if ($data["type"] != "dogodek") {
                     array_push($this->schedule, $data);
                 }
             }
@@ -213,18 +215,36 @@ class ScraperController extends Controller
         $this->appendToDB();
     }
 
+    public function checkIfPreHours(): bool
+    {
+        #ednevnik-seznam_ur_teden-td ednevnik-seznam_ur_teden-ura
+
+        $client = new Client();
+        $check = false;
+        $crawler = $client->request('GET', $this->easistentClassUrl);
+
+
+        $crawler->filter('.ednevnik-seznam_ur_teden-ura')->each(function ($node) use(&$check){
+            foreach ($node->children() as $row) {
+                if ($row->textContent === "Čas predpoukom") {
+                    $check = true;
+                }
+            }
+        });
+
+        return $check;
+    }
+
     /**
      * Scraps data from Easistent urniki
      */
     public function scrapData()
     {
 
-
         $client = new Client();
         $crawler = $client->request('GET', $this->easistentClassUrl);
 
-        // Counter counts hours
-        (int)$counter = 1;
+        (int)$counter = $this->checkIfPreHours() ? 0 : 1;
         (array)$tempArray = [];
         (array)$types_of_classes = ['nadomescanje', 'zaposlitev', 'dogodek', 'odpadlo'];
 
