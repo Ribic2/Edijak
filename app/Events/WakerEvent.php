@@ -25,6 +25,11 @@ class WakerEvent implements ShouldBroadcast
         $this->user = $user;
     }
 
+    public function broadcastAs(): string
+    {
+        return 'WakerEvent';
+    }
+
     /**
      * Get the channels the event should broadcast on.
      *
