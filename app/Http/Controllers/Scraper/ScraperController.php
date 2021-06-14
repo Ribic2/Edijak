@@ -193,7 +193,9 @@ class ScraperController extends Controller
                     "hour" => $j["hour"],
                     "type" => $j['type']
                 );
-                array_push($this->schedule, $data);
+                if($data["type"] != "dogodek"){
+                    array_push($this->schedule, $data);
+                }
             } else {
                 $data = array(
                     "teacher" => "",
@@ -202,7 +204,9 @@ class ScraperController extends Controller
                     "hour" => $j["hour"],
                     "type" => $j['type']
                 );
-                array_push($this->schedule, $data);
+                if($data["type"] != "dogodek"){
+                    array_push($this->schedule, $data);
+                }
             }
 
         }
