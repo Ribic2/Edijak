@@ -37,6 +37,6 @@ class WakerEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('edijak.'.$this->user);
+        return ['edijak.'.$this->user];
     }
 }
