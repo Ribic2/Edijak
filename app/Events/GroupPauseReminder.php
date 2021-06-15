@@ -31,13 +31,13 @@ class GroupPauseReminder implements ShouldBroadcast
 
     public function broadcastWith(): array
     {
-        $nextSchedule = Schedule::where(['groupId' => $this->id, 'hourId' => 5])->first();
+        $nextSchedule = Schedule::where(['groupId' => $this->id, 'hourId' => $this->id])->first();
 
-        /*if($nextSchedule === null){
+        if($nextSchedule === null){
             return [
               "Konec pouka"
             ];
-        }*/
+        }
         if($nextSchedule->subject == "MALICA"){
             return ["Naslednjo ura je malica"];
         }

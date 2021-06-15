@@ -26,7 +26,7 @@ class UpdateNewEvent implements ShouldBroadcast
 
     public function broadcastWith(): string
     {
-        return "Nov dogodek je bi dodan!";
+        return ["Nov dogodek je bi dodan!"];
     }
 
     /**
