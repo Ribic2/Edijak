@@ -46,7 +46,7 @@ class presentationPauseReminder extends Command
         $groups = Group::all();
 
         foreach ($groups as $group) {
-            event(new GroupPauseReminder($group->id, 5));
+            event(new GroupPauseReminder($group->id, 6));
         }
     }
 }
