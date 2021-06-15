@@ -33,11 +33,11 @@ class GroupPauseReminder implements ShouldBroadcast
     {
         $nextSchedule = Schedule::where(['groupId' => $this->id, 'hourId' => 5])->first();
 
-        if($nextSchedule === null){
+        /*if($nextSchedule === null){
             return [
               "Konec pouka"
             ];
-        }
+        }*/
         if($nextSchedule->subject == "MALICA"){
             return ["Naslednjo ura je malica"];
         }
