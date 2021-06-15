@@ -2,27 +2,30 @@
     <v-app>
         <v-navigation-drawer
             temporary
-            color="primary"
             v-model="toggle"
             app
         >
-            <v-list>
-                <v-list-item>
-                    <router-link :to="{name: 'teacherHome'}" style="width: 100%">
-                        <v-btn block elevation="0" :ripple="false" color="info" rounded>Urnik</v-btn>
-                    </router-link>
+            <v-list-item>
+                <v-list-item-avatar>
+                    <v-icon>mdi-account-outline</v-icon>
+                </v-list-item-avatar>
+
+                <v-list-item-content>
+                    <v-list-item-title>{{ user.name }} {{ user.surname }}</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+
+            <v-list-item-group>
+                <v-list-item :to="{name: 'teacherHome'}" style="width: 100%">
+                    Urnik
                 </v-list-item>
-                <v-list-item>
-                    <router-link :to="{name: 'teacherLive'}" style="width: 100%">
-                        <v-btn block elevation="0" :ripple="false" color="info" rounded>V živo</v-btn>
-                    </router-link>
+                <v-list-item :to="{name: 'teacherLive'}" style="width: 100%">
+                   V živo
                 </v-list-item>
-                <v-list-item>
-                    <router-link :to="{name: 'groups'}" style="width: 100%">
-                        <v-btn block elevation="0" :ripple="false" color="info" rounded>Razredi</v-btn>
-                    </router-link>
+                <v-list-item :to="{name: 'groups'}" style="width: 100%">
+                  Razredi
                 </v-list-item>
-            </v-list>
+            </v-list-item-group>
         </v-navigation-drawer>
 
         <v-app-bar
@@ -67,6 +70,8 @@
 <script>
 import moment from "moment";
 import {Factory} from "../../Services/Api/Factory"
+import {mapState} from "vuex";
+
 const User = Factory.get('User')
 
 export default {
@@ -86,7 +91,10 @@ export default {
         logout() {
             this.$store.commit('LOGOUT');
         }
-    }
+    },
+    computed: mapState({
+        user: state => state.User.user
+    })
 }
 </script>
 

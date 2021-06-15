@@ -77,31 +77,27 @@ class SendPauseResponse extends Command
             }
         }
 
-        // If counter is equal to 0 then it means there is an pause
-        if ($counter == 0) {
-            foreach ($groups as $group) {
-                // Checks if next hour exists for a group
-                $checkNextHour = Schedule::where(
-                    ['groupId' => $group->id, "hourId" => $getNextHour->id]
-                )->whereDate('created_at', Carbon::today())->first();
+        foreach ($groups as $group) {
+            // Checks if next hour exists for a group
+            /*$checkNextHour = Schedule::where(
+                ['groupId' => $group->id, "hourId" => $getNextHour->id]
+            )->whereDate('created_at', Carbon::today())->first();
 
-                // Checks if request was already sent so there are no duplicates and unwanted traffic
-                $check = Pause::where([
+            // Checks if request was already sent so there are no duplicates and unwanted traffic
+            $check = Pause::where([
+                "groupId" => $group->id,
+                "hourId" => $getNextHour->id,
+            ])->whereDate('created_at', Carbon::today())->count();
+
+            if ($checkNextHour != null && $check > 0) {
+                Pause::create([
                     "groupId" => $group->id,
-                    "hourId" => $getNextHour->id,
-                ])->whereDate('created_at', Carbon::today())->count();
+                    "hourId" => $getNextHour->id
+                ])->save();
 
-                if ($checkNextHour != null && $check > 0) {
-                    Pause::create([
-                        "groupId" => $group->id,
-                        "hourId" => $getNextHour->id
-                    ])->save();
-
-                    event(new GroupPauseReminder($group->id, $getNextHour->id));
-                }
-            }
-        } else {
-            error_log("Ni odmor");
+                event(new GroupPauseReminder($group->id, $getNextHour->id));
+            }*/
+            event(new GroupPauseReminder($group->id, $getNextHour->id));
         }
     }
 }

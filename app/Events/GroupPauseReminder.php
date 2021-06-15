@@ -47,6 +47,16 @@ class GroupPauseReminder implements ShouldBroadcast
     }
 
     /**
+     * The event's broadcast name.
+     *
+     * @return string
+     */
+    public function broadcastAs()
+    {
+        return 'GroupPauseReminder';
+    }
+
+    /**
      * Get the channels the event should broadcast on.
      *
      * @return Channel|array

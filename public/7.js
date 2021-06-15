@@ -75,8 +75,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
 
 var Teacher = _Services_Api_Factory__WEBPACK_IMPORTED_MODULE_1__["Factory"].get('Teacher');
 
@@ -118,7 +116,7 @@ var Teacher = _Services_Api_Factory__WEBPACK_IMPORTED_MODULE_1__["Factory"].get(
         }
 
         for (var i = 0; i < student.waker.length; i++) {
-          if (student.waker[i].nonResponsive === 1 && student.waker[i].currentHour === _this2.currentHour) {
+          if (student.waker[i].nonResponsive === 0 && student.waker[i].currentHour === _this2.currentHour) {
             check = true;
             break;
           }
@@ -156,14 +154,16 @@ var Teacher = _Services_Api_Factory__WEBPACK_IMPORTED_MODULE_1__["Factory"].get(
 
       _this4.schedules.forEach(function (e) {
         if (_this4.date.isBetween(moment__WEBPACK_IMPORTED_MODULE_2___default()(e.from, format), moment__WEBPACK_IMPORTED_MODULE_2___default()(e.to, format))) {
-          if (_this4.currentHour !== e.schedules.hour) {
-            _this4.currentHour = e.schedules.hour;
-            Teacher.getGroupStudents(e.schedules["class"]).then(function (res) {
-              _this4.students = res.data;
-            });
-          }
+          if (e.schedules !== null) {
+            if (_this4.currentHour !== e.schedules.hour) {
+              _this4.currentHour = e.schedules.hour;
+              Teacher.getGroupStudents(e.schedules["class"]).then(function (res) {
+                _this4.students = res.data;
+              });
+            }
 
-          return e;
+            return e;
+          }
         } else {
           _this4.breakCounter++;
         }
@@ -673,11 +673,9 @@ var render = function() {
                   ),
                   _vm._v(" "),
                   _c("v-card-text", [
-                    _c("p", [_vm._v(_vm._s(_vm.checkHour))]),
-                    _vm._v(" "),
-                    _c("p", [_vm._v(_vm._s(_vm.currentHour))]),
-                    _vm._v(" "),
-                    _c("p", [_vm._v(_vm._s(_vm.group))])
+                    _c("h3", [
+                      _vm._v("Trenutna ura: " + _vm._s(_vm.currentHour))
+                    ])
                   ])
                 ],
                 1

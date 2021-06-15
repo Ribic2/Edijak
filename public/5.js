@@ -12,6 +12,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Services_Api_Factory__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Services/Api/Factory */ "./resources/js/Services/Api/Factory.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 //
 //
 //
@@ -78,6 +79,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+
 
 
 var User = _Services_Api_Factory__WEBPACK_IMPORTED_MODULE_1__["Factory"].get('User');
@@ -98,7 +103,12 @@ var User = _Services_Api_Factory__WEBPACK_IMPORTED_MODULE_1__["Factory"].get('Us
     logout: function logout() {
       this.$store.commit('LOGOUT');
     }
-  }
+  },
+  computed: Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])({
+    user: function user(state) {
+      return state.User.user;
+    }
+  })
 });
 
 /***/ }),
@@ -475,7 +485,7 @@ var render = function() {
       _c(
         "v-navigation-drawer",
         {
-          attrs: { temporary: "", color: "primary", app: "" },
+          attrs: { temporary: "", app: "" },
           model: {
             value: _vm.toggle,
             callback: function($$v) {
@@ -486,96 +496,57 @@ var render = function() {
         },
         [
           _c(
-            "v-list",
+            "v-list-item",
+            [
+              _c(
+                "v-list-item-avatar",
+                [_c("v-icon", [_vm._v("mdi-account-outline")])],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-list-item-content",
+                [
+                  _c("v-list-item-title", [
+                    _vm._v(
+                      _vm._s(_vm.user.name) + " " + _vm._s(_vm.user.surname)
+                    )
+                  ])
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-list-item-group",
             [
               _c(
                 "v-list-item",
-                [
-                  _c(
-                    "router-link",
-                    {
-                      staticStyle: { width: "100%" },
-                      attrs: { to: { name: "teacherHome" } }
-                    },
-                    [
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: {
-                            block: "",
-                            elevation: "0",
-                            ripple: false,
-                            color: "info",
-                            rounded: ""
-                          }
-                        },
-                        [_vm._v("Urnik")]
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
+                {
+                  staticStyle: { width: "100%" },
+                  attrs: { to: { name: "teacherHome" } }
+                },
+                [_vm._v("\n                Urnik\n            ")]
               ),
               _vm._v(" "),
               _c(
                 "v-list-item",
-                [
-                  _c(
-                    "router-link",
-                    {
-                      staticStyle: { width: "100%" },
-                      attrs: { to: { name: "teacherLive" } }
-                    },
-                    [
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: {
-                            block: "",
-                            elevation: "0",
-                            ripple: false,
-                            color: "info",
-                            rounded: ""
-                          }
-                        },
-                        [_vm._v("V živo")]
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
+                {
+                  staticStyle: { width: "100%" },
+                  attrs: { to: { name: "teacherLive" } }
+                },
+                [_vm._v("\n               V živo\n            ")]
               ),
               _vm._v(" "),
               _c(
                 "v-list-item",
-                [
-                  _c(
-                    "router-link",
-                    {
-                      staticStyle: { width: "100%" },
-                      attrs: { to: { name: "groups" } }
-                    },
-                    [
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: {
-                            block: "",
-                            elevation: "0",
-                            ripple: false,
-                            color: "info",
-                            rounded: ""
-                          }
-                        },
-                        [_vm._v("Razredi")]
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
+                {
+                  staticStyle: { width: "100%" },
+                  attrs: { to: { name: "groups" } }
+                },
+                [_vm._v("\n              Razredi\n            ")]
               )
             ],
             1
@@ -720,7 +691,10 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VApp: vuetify_lib_components_VApp__WEBPACK_IMPORTED_MODULE_5__["VApp"],VAppBar: vuetify_lib_components_VAppBar__WEBPACK_IMPORTED_MODULE_6__["VAppBar"],VAppBarNavIcon: vuetify_lib_components_VAppBar__WEBPACK_IMPORTED_MODULE_6__["VAppBarNavIcon"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_7__["VBtn"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_8__["VIcon"],VList: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VList"],VListItem: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VListItem"],VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_10__["VMain"],VNavigationDrawer: vuetify_lib_components_VNavigationDrawer__WEBPACK_IMPORTED_MODULE_11__["VNavigationDrawer"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_12__["VOverlay"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_13__["VProgressCircular"],VSpacer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_14__["VSpacer"],VToolbarTitle: vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_15__["VToolbarTitle"]})
+
+
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VApp: vuetify_lib_components_VApp__WEBPACK_IMPORTED_MODULE_5__["VApp"],VAppBar: vuetify_lib_components_VAppBar__WEBPACK_IMPORTED_MODULE_6__["VAppBar"],VAppBarNavIcon: vuetify_lib_components_VAppBar__WEBPACK_IMPORTED_MODULE_6__["VAppBarNavIcon"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_7__["VBtn"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_8__["VIcon"],VListItem: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VListItem"],VListItemAvatar: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VListItemAvatar"],VListItemContent: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VListItemContent"],VListItemGroup: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VListItemGroup"],VListItemTitle: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VListItemTitle"],VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_10__["VMain"],VNavigationDrawer: vuetify_lib_components_VNavigationDrawer__WEBPACK_IMPORTED_MODULE_11__["VNavigationDrawer"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_12__["VOverlay"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_13__["VProgressCircular"],VSpacer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_14__["VSpacer"],VToolbarTitle: vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_15__["VToolbarTitle"]})
 
 
 /* hot reload */

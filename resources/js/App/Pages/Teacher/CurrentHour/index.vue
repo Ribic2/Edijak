@@ -45,9 +45,7 @@
                     </v-card-title>
 
                     <v-card-text>
-                        <p>{{ checkHour }}</p>
-                        <p>{{ currentHour }}</p>
-                        <p>{{ group }}</p>
+                        <h3>Trenutna ura: {{ currentHour }}</h3>
                     </v-card-text>
                 </v-card>
             </v-col>
@@ -91,7 +89,7 @@ export default {
                     return false;
                 }
                 for(let i = 0; i < student.waker.length; i++){
-                    if(student.waker[i].nonResponsive === 1 && student.waker[i].currentHour === this.currentHour){
+                    if(student.waker[i].nonResponsive === 0 && student.waker[i].currentHour === this.currentHour){
                         check = true
                         break
                     }
@@ -123,14 +121,16 @@ export default {
             this.breakCounter = 0
             this.schedules.forEach((e) => {
                 if (this.date.isBetween(moment(e.from, format), moment(e.to, format))) {
-                    if (this.currentHour !== e.schedules.hour) {
-                        this.currentHour = e.schedules.hour;
-                        Teacher.getGroupStudents(e.schedules.class)
-                            .then((res) => {
-                                this.students = res.data
-                            })
+                    if(e.schedules !== null){
+                        if (this.currentHour !== e.schedules.hour) {
+                            this.currentHour = e.schedules.hour;
+                            Teacher.getGroupStudents(e.schedules.class)
+                                .then((res) => {
+                                    this.students = res.data
+                                })
+                        }
+                        return e
                     }
-                    return e
                 } else {
                     this.breakCounter++
                 }
