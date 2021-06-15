@@ -30,7 +30,7 @@ class WakerEvent implements ShouldBroadcast
         return 'WakerEvent';
     }
 
-    public function broadcastWith(): string
+    public function broadcastWith(): array
     {
         return ["Neaktiven si pri pouku!"];
 
