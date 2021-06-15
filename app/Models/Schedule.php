@@ -12,7 +12,7 @@ class Schedule extends Model
      *
      * @var array
      */
-    protected $fillable = ["subject", "class", "hour", "userId", "groupId", "hourId", "type"];
+    protected $fillable = ["subject", "class", "hour", "userId", "groupId", "hourId", "type", "classRoom"];
     protected $hidden = ['userId', 'groupId', 'hourId'];
 
     public function teacher(): HasOne

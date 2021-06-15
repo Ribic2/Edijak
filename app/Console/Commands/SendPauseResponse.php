@@ -44,6 +44,7 @@ class SendPauseResponse extends Command
      */
     public function handle()
     {
+
         $hours = Hour::all();
         $groups = Group::all();
 
@@ -79,7 +80,7 @@ class SendPauseResponse extends Command
 
         foreach ($groups as $group) {
             // Checks if next hour exists for a group
-            /*$checkNextHour = Schedule::where(
+            $checkNextHour = Schedule::where(
                 ['groupId' => $group->id, "hourId" => $getNextHour->id]
             )->whereDate('created_at', Carbon::today())->first();
 
@@ -96,8 +97,7 @@ class SendPauseResponse extends Command
                 ])->save();
 
                 event(new GroupPauseReminder($group->id, $getNextHour->id));
-            }*/
-            event(new GroupPauseReminder($group->id, $getNextHour->id));
+            }
         }
     }
 }

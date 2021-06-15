@@ -56,6 +56,7 @@ class ScraperController extends Controller
                     "class" => $this->className,
                     "type" => $hour["type"],
                     "hour" => $hour["hour"],
+                    "classRoom" => $hour['classRoom'] == null ? " " :  $hour['classRoom'] ,
                     "userId" => $user ? $user->id : null,
                     "groupId" => Group::where('groupName', $this->className)->first()->id,
                     "hourId" => Hour::where('id', $hour["hour"])->first()->id,
@@ -70,6 +71,7 @@ class ScraperController extends Controller
                     "hour" => $hour["hour"],
                     "type" => $hour["type"],
                     "teacherId" => null,
+                    "classRoom" => "",
                     "groupId" => Group::where('groupName', $this->className)->first()->id,
                     "hourId" => $hour["hour"] > 9 ? 10 : Hour::where('id', $hour["hour"])->first()->id,
                 ])->save();
