@@ -31,7 +31,7 @@ class GroupPauseReminder implements ShouldBroadcast
 
     public function broadcastWith(): array
     {
-        $nextSchedule = Schedule::where(['groupId' => $this->id, 'hourId' => $this->id])->first();
+        $nextSchedule = Schedule::where(['groupId' => $this->id, 'hourId' => $this->hour])->first();
         error_log(print_r($nextSchedule));
 
         if($nextSchedule === null){

@@ -89,7 +89,7 @@ export default {
                     return false;
                 }
                 for(let i = 0; i < student.waker.length; i++){
-                    if(student.waker[i].nonResponsive === 0 && student.waker[i].currentHour === this.currentHour){
+                    if(student.waker[i].nonResponsive === 1 && student.waker[i].currentHour === this.currentHour){
                         check = true
                         break
                     }
